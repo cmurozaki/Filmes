@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_form_login"
+    tools:context=".FormPrincipal">
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/logo_filmes_e_series"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <View
+        android:id="@+id/containerTelaPrincipal"
+        style="@style/ContainerComponentsTelaPrincipal"
+        android:layout_width="360dp"
+        android:layout_height="620dp"
+        android:layout_marginTop="100dp"
+        android:background="@drawable/container_tela_principal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logo" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_principal_catalogo"
+        style="@style/Button_Tela_Principal"
+        android:text="@string/catalogo"
+        android:textSize="12dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="25dp"
+        android:drawableBottom="@drawable/ic_catalogo"
+        app:layout_constraintStart_toStartOf="@+id/containerTelaPrincipal"
+        app:layout_constraintTop_toTopOf="@+id/containerTelaPrincipal" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_principal_novidades"
+        style="@style/Button_Tela_Principal"
+        android:text="@string/novidades"
+        android:textSize="12dp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="25dp"
+        android:drawableBottom="@drawable/ic_novidades"
+        app:layout_constraintTop_toTopOf="@+id/containerTelaPrincipal"
+        app:layout_constraintStart_toEndOf="@+id/btn_principal_catalogo"
+        />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_principal_favoritos"
+        style="@style/Button_Tela_Principal"
+        android:text="@string/favoritos"
+        android:textSize="12dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="25dp"
+        android:drawableBottom="@drawable/ic_favoritos"
+        app:layout_constraintTop_toTopOf="@+id/containerTelaPrincipal"
+        app:layout_constraintStart_toEndOf="@+id/btn_principal_novidades"
+        />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_principal_diretor"
+        style="@style/Button_Tela_Principal"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:text="@string/diretor"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textSize="12dp"
+        android:layout_marginStart="15dp"
+        android:drawableBottom="@drawable/ic_diretor"
+        app:layout_constraintStart_toStartOf="@+id/containerTelaPrincipal"
+        app:layout_constraintTop_toBottomOf="@+id/btn_principal_catalogo" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_principal_ator_atriz"
+        style="@style/Button_Tela_Principal"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="15dp"
+        android:text="@string/ator_atriz"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textSize="12dp"
+        android:drawableBottom="@drawable/ic_ator_atriz"
+        app:layout_constraintStart_toEndOf="@+id/btn_principal_diretor"
+        app:layout_constraintTop_toBottomOf="@+id/btn_principal_novidades"
+        />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_principal_minhalista"
+        style="@style/Button_Tela_Principal"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="15dp"
+        android:text="@string/minha_lista"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textSize="12dp"
+        android:drawableBottom="@drawable/ic_minha_lista"
+        app:layout_constraintStart_toEndOf="@+id/btn_principal_ator_atriz"
+        app:layout_constraintTop_toBottomOf="@+id/btn_principal_favoritos"
+        />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_principal_config"
+        style="@style/Button_Tela_Principal"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="15dp"
+        android:text="@string/config"
+        android:textSize="8dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:drawableBottom="@drawable/ic_configuracoes"
+        app:layout_constraintStart_toStartOf="@+id/containerTelaPrincipal"
+        app:layout_constraintTop_toBottomOf="@+id/btn_principal_diretor"
+        />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_cadastrar_filmes"
+        style="@style/Button_Tela_Principal"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="15dp"
+        android:text="@string/cadastro_filmes"
+        android:textSize="8dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:visibility="visible"
+        app:layout_constraintStart_toEndOf="@+id/btn_principal_config"
+        app:layout_constraintTop_toBottomOf="@+id/btn_principal_ator_atriz"
+        />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_logoff"
+        style="@style/Button_Form_Sair"
+        android:text="@string/sair"
+        app:layout_constraintBottom_toBottomOf="@+id/containerTelaPrincipal"
+        app:layout_constraintEnd_toEndOf="@+id/containerTelaPrincipal"
+        app:layout_constraintHorizontal_bias="0.488"
+        app:layout_constraintStart_toStartOf="@+id/containerTelaPrincipal"
+        app:layout_constraintTop_toTopOf="@+id/containerTelaPrincipal"
+        app:layout_constraintVertical_bias="0.93" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">Catálogo de Filmes e Séries</string>
+    <string name="entrar">Entrar</string>
+    <string name="sair">Sair</string>
+    <string name="txt_cadastrar">Não tem conta ainda? Clique aqui</string>
+    <string name="txt_cadastro">Informe os dados para o cadastro</string>
+    <string name="cadastrar">Cadastrar</string>
+    <string name="catalogo">CATÁLOGO</string>
+    <string name="novidades">NOVIDADES</string>
+    <string name="favoritos">FAVORITOS</string>
+    <string name="config">CONFIGURAÇÕES</string>
+    <string name="diretor">DIRETOR</string>
+    <string name="ator_atriz">ATOR / ATRIZ</string>
+    <string name="msg_logoff">Confirma sair do APP ?</string>
+    <string name="minha_lista">MINHA LISTA</string>
+    <string name="cadastro_filmes">Cadastro de Filmes e Séries</string>
+    <string name="voltar">Voltar</string>
+    <string name="upload_imagem">Carregar Imagem</string>
+    <string name="ok">OK</string>
+    <string name="tamanho_imagem">Tamanho: 150x100 pixels</string>
+    <string-array name="array_generos">
+        <item>Animação</item>
+        <item>Aventura</item>
+        <item>Comédia</item>
+        <item>Drama</item>
+        <item>Ficção-Científica</item>
+        <item>Policial</item>
+        <item>Suspense</item>
+        <item>Terror</item>
+    </string-array>
+    <string-array name="array_notas">
+        <item>Muito Bom</item>
+        <item>Bom</item>
+        <item>Fraco</item>
+        <item>Muito Fraco</item>
+    </string-array>
+</resources>

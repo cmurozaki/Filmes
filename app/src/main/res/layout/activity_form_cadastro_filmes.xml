@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_form_login"
+    tools:context=".FormCadastroFilmes">
+
+    <TextView
+        android:id="@+id/txt_titulo_cadastro_filmes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="@string/cadastro_filmes"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/containerComponentsCadFilmes"
+        style="@style/ContainerComponentsCadastroFilmes"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_titulo_cadastro_filmes" />
+
+    <EditText
+        android:id="@+id/edt_titulo_portugues"
+        style="@style/Edit_Text_Form_Cadastro_Filmes"
+        android:hint="Título em Português (Ex.: MISTÉRIO DO FAROL, O)"
+        app:layout_constraintEnd_toEndOf="@id/containerComponentsCadFilmes"
+        app:layout_constraintEnd_toStartOf="@id/containerComponentsCadFilmes"
+        app:layout_constraintTop_toTopOf="@id/containerComponentsCadFilmes" />
+
+    <EditText
+        android:id="@+id/edt_titulo_original"
+        style="@style/Edit_Text_Form_Cadastro_Filmes"
+        android:hint="Título em Original (Ex.: Vanishing, The)"
+        app:layout_constraintEnd_toEndOf="@id/containerComponentsCadFilmes"
+        app:layout_constraintEnd_toStartOf="@id/containerComponentsCadFilmes"
+        app:layout_constraintTop_toBottomOf="@id/edt_titulo_portugues" />
+
+    <RadioGroup
+        android:id="@+id/radioGroupFilmeSerie"
+        style="@style/Radio_Group"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="@id/containerComponentsCadFilmes"
+        app:layout_constraintEnd_toStartOf="@id/containerComponentsCadFilmes"
+        app:layout_constraintTop_toBottomOf="@id/edt_titulo_original">
+
+        <RadioButton
+            android:id="@+id/radioBtnFilme"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:text="Filme"
+            android:textSize="12dp" />
+
+        <RadioButton
+            android:id="@+id/radioBtnSerie"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:text="Série"
+            android:textSize="12dp" />
+        </RadioGroup>
+
+    <Spinner
+        android:id="@+id/spinner_generos"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        style="@style/Edit_Text_Form_Cadastro_Filmes"
+        app:layout_constraintEnd_toEndOf="@id/containerComponentsCadFilmes"
+        app:layout_constraintEnd_toStartOf="@id/containerComponentsCadFilmes"
+        app:layout_constraintTop_toBottomOf="@id/radioGroupFilmeSerie"
+        />
+
+    <EditText
+        android:id="@+id/edt_producao"
+        style="@style/Edit_Text_Form_Cadastro_Filmes"
+        android:hint="Produção (Ex.: EUA, 2010)"
+        app:layout_constraintEnd_toEndOf="@id/containerComponentsCadFilmes"
+        app:layout_constraintEnd_toStartOf="@id/containerComponentsCadFilmes"
+        app:layout_constraintTop_toBottomOf="@id/spinner_generos"
+        />
+
+    <EditText
+        android:id="@+id/edt_direcao"
+        style="@style/Edit_Text_Form_Cadastro_Filmes"
+        android:hint="Direção (Ex.: Kristoffer Nyholm)"
+        app:layout_constraintEnd_toEndOf="@id/containerComponentsCadFilmes"
+        app:layout_constraintEnd_toStartOf="@id/containerComponentsCadFilmes"
+        app:layout_constraintTop_toBottomOf="@id/edt_producao"
+        />
+
+    <EditText
+        android:id="@+id/edt_elenco"
+        style="@style/Edit_Text_Form_Cadastro_Filmes"
+        android:inputType="textMultiLine"
+        android:maxLines="2"
+        android:hint="Elenco (Ex.: Gerard Butler, Peter Mullan, Connor Swindells)"
+        app:layout_constraintEnd_toEndOf="@id/containerComponentsCadFilmes"
+        app:layout_constraintEnd_toStartOf="@id/containerComponentsCadFilmes"
+        app:layout_constraintTop_toBottomOf="@id/edt_direcao"
+        />
+
+    <EditText
+        android:id="@+id/edt_temporadas"
+        style="@style/Edit_Text_Form_Cadastro_Filmes"
+        android:hint="Temporadas (Ex.: 4 Temporadas)"
+        app:layout_constraintEnd_toEndOf="@id/containerComponentsCadFilmes"
+        app:layout_constraintEnd_toStartOf="@id/containerComponentsCadFilmes"
+        app:layout_constraintTop_toBottomOf="@id/edt_elenco"
+        />
+
+    <EditText
+        android:id="@+id/edt_sinopse"
+        style="@style/Edit_Text_Form_Cadastro_Filmes"
+        android:hint="Sinopse / Comentários"
+        android:inputType="textMultiLine"
+        android:maxLines="7"
+        android:scrollbars="vertical"
+        app:layout_constraintEnd_toEndOf="@id/containerComponentsCadFilmes"
+        app:layout_constraintEnd_toStartOf="@id/containerComponentsCadFilmes"
+        app:layout_constraintTop_toBottomOf="@id/edt_temporadas"
+        />
+
+    <Spinner
+        android:id="@+id/spinner_notas"
+        style="@style/Edit_Text_Form_Cadastro_Filmes"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        app:layout_constraintEnd_toEndOf="@id/containerComponentsCadFilmes"
+        app:layout_constraintEnd_toStartOf="@id/containerComponentsCadFilmes"
+        app:layout_constraintTop_toBottomOf="@id/edt_sinopse" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_cadastro_filmes_upload_imagem"
+        style="@style/Button_Form_Upload_Imagem"
+        android:text="@string/upload_imagem"
+        android:textColor="@color/black"
+        android:layout_marginStart="20dp"
+        android:textSize="9dp"
+        app:layout_constraintStart_toStartOf="@id/containerComponentsCadFilmes"
+        app:layout_constraintTop_toBottomOf="@id/spinner_notas"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txt_tamanho_imagem"
+        android:text="@string/tamanho_imagem"
+        android:textColor="@color/black"
+        android:textSize="8dp"
+        android:layout_marginStart="20dp"
+        app:layout_constraintStart_toStartOf="@id/containerComponentsCadFilmes"
+        app:layout_constraintTop_toBottomOf="@id/btn_cadastro_filmes_upload_imagem"
+        />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_cadastro_filmes_cadastrar"
+        style="@style/Button_Form_Cadastro_Filmes"
+        android:text="@string/cadastrar"
+        android:layout_marginStart="40dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintStart_toStartOf="@+id/containerComponentsCadFilmes"
+        app:layout_constraintBottom_toBottomOf="@+id/containerComponentsCadFilmes"
+        />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_cadastro_filmes_voltar"
+        style="@style/Button_Form_Cadastro_Filmes"
+        android:text="@string/voltar"
+        android:layout_marginLeft="180dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintStart_toStartOf="@+id/btn_cadastro_filmes_cadastrar"
+        app:layout_constraintBottom_toBottomOf="@+id/containerComponentsCadFilmes"
+        />
+
+    <ImageView
+        android:id="@+id/img_filme"
+        android:layout_width="150dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="68dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_cadastro_filmes_voltar"
+        app:layout_constraintStart_toEndOf="@+id/btn_cadastro_filmes_upload_imagem"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_notas"
+        tools:srcCompat="@tools:sample/avatars"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

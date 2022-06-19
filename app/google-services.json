@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "912466307126",
+    "project_id": "moviesandseries-de9a7",
+    "storage_bucket": "moviesandseries-de9a7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:912466307126:android:9a335be8a51b8a57bd1097",
+        "android_client_info": {
+          "package_name": "com.example.appmoviesseries"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "912466307126-86s04spmu5fj30t89l23outu9ulj6oim.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA1wmuqW1nJzRi9LJU6dco3sAVq_GMdxHE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "912466307126-86s04spmu5fj30t89l23outu9ulj6oim.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

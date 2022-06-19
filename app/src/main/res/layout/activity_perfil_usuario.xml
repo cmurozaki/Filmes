@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_form_login"
+    tools:context=".PerfilUsuario">
+
+    <View
+        android:id="@+id/containerPerfilUsuario"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/container_perfil_usuario"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <ImageView
+        android:id="@+id/icPerfilUsuario"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/ic_person"
+        app:layout_constraintStart_toStartOf="@+id/containerPerfilUsuario"
+        app:layout_constraintEnd_toEndOf="@+id/containerPerfilUsuario"
+        app:layout_constraintTop_toTopOf="@+id/containerPerfilUsuario"
+        app:layout_constraintBottom_toBottomOf="@+id/containerPerfilUsuario"
+        />
+
+
+    <ImageView
+        android:id="@+id/img_person"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="30dp"
+        android:src="@drawable/ic_person"
+        app:layout_constraintTop_toBottomOf="@+id/icPerfilUsuario"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/txt_nome_usuario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="nome"
+        android:textColor="@color/white"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:textSize="20sp"
+        app:layout_constraintTop_toBottomOf="@+id/containerPerfilUsuario"
+        app:layout_constraintStart_toEndOf="@+id/img_person"
+        />
+
+    <ImageView
+        android:id="@+id/img_Email"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_email"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="30dp"
+        app:layout_constraintTop_toBottomOf="@+id/img_person"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/txt_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="50dp"
+        android:text="email"
+        android:textColor="@android:color/holo_blue_dark"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/img_Email"
+        app:layout_constraintTop_toBottomOf="@+id/txt_nome_usuario" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_sair"
+        style="@style/Button_Form"
+        android:text="@string/sair"
+        android:layout_marginTop="80dp"
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txt_email"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

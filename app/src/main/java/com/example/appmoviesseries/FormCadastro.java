@@ -4,16 +4,21 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,6 +46,7 @@ public class FormCadastro extends AppCompatActivity {
     private EditText edt_senha1;
     private EditText edt_senha;
     private Button   btn_cadastrar;
+
     String[] mensagens = { "Todos os campos são obrigatórios",                  // 0
                            "Cadastro realizado com sucesso",                    // 1
                            "Senhas devem ser iguais",                           // 2
@@ -48,6 +54,7 @@ public class FormCadastro extends AppCompatActivity {
                            "E-mail já cadastrado",                              // 4
                            "E-mail informado é inválido"};                      // 5
     String usuarioID;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,9 +70,12 @@ public class FormCadastro extends AppCompatActivity {
         TextWatcher mask = MaskEditUtil.mask(edt_celular, "(##) #####-####");
         edt_celular.addTextChangedListener(mask);
 
+        /* Botão CADASTRAR USUÁRIO */
         btn_cadastrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                hideSoftKeyboard(FormCadastro.this);    /* Esconde o teclado virtual */
 
                 String nome    = edt_nome.getText().toString();
                 String email   = edt_email.getText().toString();
@@ -83,7 +93,7 @@ public class FormCadastro extends AppCompatActivity {
                     /* Verifica se as senhas digitadas são iguais */
                     if (senha.equals(senha1)) {
                         CadastrarUsuario(view);
-                        CarregarTelaPrincipal();
+                        // CarregarTelaPrincipal();
                     } else {
                         Snackbar snackbar = Snackbar.make(view, mensagens[2], Snackbar.LENGTH_SHORT);
                         snackbar.setBackgroundTint(Color.WHITE);
@@ -101,6 +111,12 @@ public class FormCadastro extends AppCompatActivity {
         String email = edt_email.getText().toString();
         String senha = edt_senha.getText().toString();
 
+        /* Barra de PROGRESSO */
+        progressBar.setVisibility(View.VISIBLE);new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() { CarregarTelaPrincipal(); }
+        }, 3000 );
+
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, senha).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
 
             @Override
@@ -109,7 +125,7 @@ public class FormCadastro extends AppCompatActivity {
 
                     SalvarDadosUsuario();   /* Grava os dados do usuário */
 
-                    Toast toast = Toast.makeText(getApplicationContext(), mensagens[1], Toast.LENGTH_LONG);
+                    Toast toast = Toast.makeText(getApplicationContext(), mensagens[1], Toast.LENGTH_SHORT);
                     toast.show();
 
                 } else {
@@ -180,12 +196,21 @@ public class FormCadastro extends AppCompatActivity {
         edt_senha1    = findViewById(R.id.edt_senha1);
         edt_senha     = findViewById(R.id.edt_senha2);
         btn_cadastrar = findViewById(R.id.btn_cadastrar);
+        progressBar   = findViewById(R.id.progressbar_cadastro);
     }
 
     private void CarregarTelaPrincipal() {
         Intent intent = new Intent( FormCadastro.this, FormPrincipal.class);
         startActivity(intent);
         finish();
+    }
+
+    /* Esconde o teclado virtual */
+    private void hideSoftKeyboard(Activity activity) {
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(activity.INPUT_METHOD_SERVICE);
+        View view = activity.getCurrentFocus();
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
 }

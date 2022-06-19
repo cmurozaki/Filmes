@@ -4,23 +4,28 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.InputFilter;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.appmoviesseries.databinding.ActivityMainBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,6 +35,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -39,7 +45,6 @@ public class FormCadastroFilmes extends AppCompatActivity {
 
     private StorageReference mStorageRef;
 
-    /* Variáveis públicas */
     TextView edt_titulo_portugues;
     TextView edt_titulo_original;
     TextView edt_producao;
@@ -56,8 +61,8 @@ public class FormCadastroFilmes extends AppCompatActivity {
     ImageView img_filme;
     RadioGroup radioGroup;
     String usuarioID;
-
-    /* Variáveis públicas */
+    StorageReference imgRef;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,25 +134,32 @@ public class FormCadastroFilmes extends AppCompatActivity {
             String elenco = edt_elenco.getText().toString();
             String temporadas = edt_temporadas.getText().toString();
             String sinopse = edt_sinopse.getText().toString();
+            String urlimagem = imgRef.toString();
+
+            /* Barra de PROGRESSO */
+            progressBar.setVisibility(View.VISIBLE);new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() { CarregarTelaPrincipal(); }
+            }, 3000 );
 
             /* Campos validados, gravar os dados no firebase. */
             String userId = FirebaseAuth.getInstance().getUid();
 
             /* Criado objeto 'movies' para adicionar os valores na collection 'filmes' */
-            Movies movies = new Movies(userId, titulo_portugues, titulo_original, genero, nota, producao, direcao, elenco, temporadas, sinopse, "urlImagem");
+            Movies movies = new Movies(userId, titulo_portugues, titulo_original, genero, nota, producao, direcao, elenco, temporadas, sinopse, urlimagem);
 
             FirebaseFirestore.getInstance().collection("filmes")
                     .add(movies)
                     .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override
                         public void onSuccess(DocumentReference documentReference) {
-                            Log.i("Sucesso gravação", documentReference.getId());
+                            Log.i("Sucesso na gravação", documentReference.getId());
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Log.i("Erro gravação", e.getMessage());
+                            Log.i("Erro na gravação", e.getMessage());
                         }
                     });
             /* Campos validados, gravar os dados no firebase. */
@@ -155,7 +167,7 @@ public class FormCadastroFilmes extends AppCompatActivity {
             Toast toast = Toast.makeText(getApplicationContext(), "Filme/Série cadastrado com sucesso.", Toast.LENGTH_SHORT);
             toast.show();
 
-            CarregarTelaPrincipal();
+            // CarregarTelaPrincipal();
 
         } else {
             Toast toast = Toast.makeText(getApplicationContext(), "Dados inconsistentes", Toast.LENGTH_SHORT);
@@ -170,8 +182,9 @@ public class FormCadastroFilmes extends AppCompatActivity {
     }
 
     private void gravaImagem() {
+        /* ERRO NO PUTFILE ??? */
         String filename = UUID.randomUUID().toString();
-        StorageReference ref = FirebaseStorage.getInstance().getReference("/images/"+filename);
+        StorageReference ref = FirebaseStorage.getInstance().getReference("/imagens/"+filename);
         // final StorageReference ref = FirebaseStorage.getInstance().getReference();
         ref.putFile(selecionadoUri)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -193,6 +206,37 @@ public class FormCadastroFilmes extends AppCompatActivity {
                 });
     }
 
+    /* Grava a imagem no Storage do Firebase */
+    private void gravaImg() {
+        /* DICA:
+        No Firebase Storage - Rules:
+            rules_version = '2';
+            service firebase.storage {
+                match /b/{bucket}/o {
+                    match /{allPaths=**} {
+                        allow read, write: if request.auth != null;
+                    }
+                }
+             }
+        */
+        Bitmap bitmap = ((BitmapDrawable)img_filme.getDrawable()).getBitmap();
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+        byte[] imagem = byteArrayOutputStream.toByteArray();
+
+        String filename = UUID.randomUUID().toString() + ".jpeg";
+        imgRef = FirebaseStorage.getInstance().getReference("/imagens/"+filename);
+        // imgRef = mStorageRef.child("/imagens/" + filename); - funciona também
+        UploadTask uploadTask = imgRef.putBytes(imagem);
+
+        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Toast.makeText( getApplicationContext(), "Imagem gravada com sucesso", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
 
     /* Validação do campos */
     private boolean validaCampo() {
@@ -300,7 +344,7 @@ public class FormCadastroFilmes extends AppCompatActivity {
     /* Método para seleção da IMAGEM */
     private void selecionarImagem() {
         // Intent intent = new Intent(Intent.ACTION_PICK );
-        Intent intent = new Intent(Intent.ACTION_PICK );
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT );
         intent.setType("image/*");
         startActivityForResult(intent, 0);
     }
@@ -312,16 +356,17 @@ public class FormCadastroFilmes extends AppCompatActivity {
         if (requestCode == 0) {
             selecionadoUri = data.getData();
             Bitmap bitmap = null;
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selecionadoUri);
-                img_filme.setImageDrawable(new BitmapDrawable(bitmap));
+            img_filme.setImageURI(selecionadoUri);
+            gravaImg();
+            /*try {
+                //bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selecionadoUri);
+                //img_filme.setImageDrawable(new BitmapDrawable(bitmap));
             } catch (IOException e) {
                 e.printStackTrace();
-            }
+            }*/
 
         }
     }
-    /* Método para seleção da IMAGEM */
 
     private void IniciarComponentes() {
         edt_titulo_portugues = findViewById(R.id.edt_titulo_portugues);
@@ -338,6 +383,8 @@ public class FormCadastroFilmes extends AppCompatActivity {
         btn_imagem = findViewById(R.id.btn_cadastro_filmes_upload_imagem);
         img_filme = findViewById(R.id.img_filme);
         radioGroup = findViewById(R.id.radioGroupFilmeSerie);
+        progressBar = findViewById(R.id.progressbar_cadastro_filme);
     }
+
 
 }

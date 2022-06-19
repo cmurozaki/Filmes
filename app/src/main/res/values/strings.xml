@@ -18,6 +18,7 @@
     <string name="upload_imagem">Carregar Imagem</string>
     <string name="ok">OK</string>
     <string name="tamanho_imagem">Tamanho: 150x100 pixels</string>
+    <string name="formato_imagem">Formato: JPEG</string>
     <string-array name="array_generos">
         <item>Animação</item>
         <item>Aventura</item>

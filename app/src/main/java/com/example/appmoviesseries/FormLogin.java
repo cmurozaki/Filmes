@@ -3,11 +3,14 @@ package com.example.appmoviesseries;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -53,6 +56,8 @@ public class FormLogin extends AppCompatActivity {
             public void onClick(View v) {
                 String email = edt_email.getText().toString();
                 String senha = edt_senha.getText().toString();
+
+                hideSoftKeyboard(FormLogin.this);    /* Esconde o teclado virtual */
 
                 if (email.isEmpty() || senha.isEmpty()) {
                     Snackbar snackbar = Snackbar.make(v, "Todos os campos devem ser preenchidos", Snackbar.LENGTH_SHORT);
@@ -122,4 +127,13 @@ public class FormLogin extends AppCompatActivity {
         btn_Login = findViewById(R.id.btn_entrar);
         prg_Login = findViewById(R.id.progressbar_login);
     }
+
+    /* Esconde o teclado virtual */
+    private void hideSoftKeyboard(Activity activity) {
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(activity.INPUT_METHOD_SERVICE);
+        View view = activity.getCurrentFocus();
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
 }

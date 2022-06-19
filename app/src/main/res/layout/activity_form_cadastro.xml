@@ -92,6 +92,15 @@
         app:layout_constraintTop_toBottomOf="@id/edt_senha2"
         />
 
+    <ProgressBar
+        android:id="@+id/progressbar_cadastro"
+        style="@style/ProgressBar_Form"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/containerComponents"
+        />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

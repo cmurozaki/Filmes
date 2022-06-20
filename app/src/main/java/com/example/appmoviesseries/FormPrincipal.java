@@ -40,6 +40,7 @@ public class FormPrincipal extends AppCompatActivity {
             }
         });
 
+        /* Botão CADASTRAR FILMES E SÉRIES */
         btn_cadastrar_filmes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

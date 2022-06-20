@@ -2,9 +2,11 @@ package com.example.appmoviesseries;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -86,6 +88,7 @@ public class FormCadastroFilmes extends AppCompatActivity {
 
         /* Digitação somente em caixa alta*/
         edt_titulo_portugues.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
+        edt_producao.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
 
         /* Botão CARREGAR IMAGEM */
         btn_imagem.setOnClickListener(new View.OnClickListener() {
@@ -109,13 +112,33 @@ public class FormCadastroFilmes extends AppCompatActivity {
         btn_voltar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                VoltarTela();
+            }
+        });
+        /* Botão VOLTAR */
+
+    }
+
+    private void VoltarTela() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Alerta");
+        builder.setMessage(R.string.confirma_voltar);
+        builder.setPositiveButton("SIM", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent(FormCadastroFilmes.this, FormPrincipal.class);
                 startActivity(intent);
                 finish();
             }
         });
-        /* Botão VOLTAR */
-
+        builder.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                return;
+            }
+        });
+        AlertDialog alerta = builder.create();
+        alerta.show();
     }
 
 
@@ -166,8 +189,6 @@ public class FormCadastroFilmes extends AppCompatActivity {
 
             Toast toast = Toast.makeText(getApplicationContext(), "Filme/Série cadastrado com sucesso.", Toast.LENGTH_SHORT);
             toast.show();
-
-            // CarregarTelaPrincipal();
 
         } else {
             Toast toast = Toast.makeText(getApplicationContext(), "Dados inconsistentes", Toast.LENGTH_SHORT);

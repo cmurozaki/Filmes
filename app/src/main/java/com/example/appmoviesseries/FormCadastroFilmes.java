@@ -46,6 +46,7 @@ import java.util.UUID;
 public class FormCadastroFilmes extends AppCompatActivity {
 
     private StorageReference mStorageRef;
+    private Boolean imagemSelecionada = false;
 
     TextView edt_titulo_portugues;
     TextView edt_titulo_original;
@@ -157,12 +158,17 @@ public class FormCadastroFilmes extends AppCompatActivity {
             String elenco = edt_elenco.getText().toString();
             String temporadas = edt_temporadas.getText().toString();
             String sinopse = edt_sinopse.getText().toString();
-            String urlimagem = imgRef.toString();
+            String urlimagem = "";
+
+            /* Caso tenha selecionado uma imagem, verfica a url */
+            if (imagemSelecionada) {
+                urlimagem = imgRef.toString();
+            }
 
             /* Barra de PROGRESSO */
             progressBar.setVisibility(View.VISIBLE);new Handler().postDelayed(new Runnable() {
                 @Override
-                public void run() { CarregarTelaPrincipal(); }
+                public void run() { LimpaCampos(); }
             }, 3000 );
 
             /* Campos validados, gravar os dados no firebase. */
@@ -196,10 +202,22 @@ public class FormCadastroFilmes extends AppCompatActivity {
         }
     }
 
-    private void CarregarTelaPrincipal() {
-        Intent intent = new Intent(FormCadastroFilmes.this, FormPrincipal.class);
-        startActivity(intent);
-        finish();
+    /* Limpa os campos */
+    private void LimpaCampos() {
+
+        edt_titulo_portugues.setText("");
+        edt_titulo_original.setText("");
+        edt_producao.setText("");
+        edt_elenco.setText("");
+        edt_direcao.setText("");
+        edt_sinopse.setText("");
+        edt_temporadas.setText("");
+
+        /* Envia o foco para o título em português */
+        edt_titulo_portugues.requestFocus();
+
+        progressBar.setVisibility(View.INVISIBLE);
+
     }
 
     private void gravaImagem() {
@@ -253,6 +271,7 @@ public class FormCadastroFilmes extends AppCompatActivity {
         uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                imagemSelecionada = true;
                 Toast.makeText( getApplicationContext(), "Imagem gravada com sucesso", Toast.LENGTH_SHORT).show();
             }
         });

@@ -111,12 +111,6 @@ public class FormCadastro extends AppCompatActivity {
         String email = edt_email.getText().toString();
         String senha = edt_senha.getText().toString();
 
-        /* Barra de PROGRESSO */
-        progressBar.setVisibility(View.VISIBLE);new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() { CarregarTelaPrincipal(); }
-        }, 3000 );
-
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, senha).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
 
             @Override
@@ -124,6 +118,12 @@ public class FormCadastro extends AppCompatActivity {
                 if (task.isSuccessful()) {
 
                     SalvarDadosUsuario();   /* Grava os dados do usuário */
+
+                    /* Barra de PROGRESSO */
+                    progressBar.setVisibility(View.VISIBLE);new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() { CarregarTelaPrincipal(); }
+                    }, 3000 );
 
                     Toast toast = Toast.makeText(getApplicationContext(), mensagens[1], Toast.LENGTH_SHORT);
                     toast.show();
@@ -150,6 +150,7 @@ public class FormCadastro extends AppCompatActivity {
                     snackbar.setBackgroundTint(Color.WHITE);
                     snackbar.setTextColor(Color.RED);
                     snackbar.show();
+
                 }
             }
         });
@@ -201,6 +202,12 @@ public class FormCadastro extends AppCompatActivity {
 
     private void CarregarTelaPrincipal() {
         Intent intent = new Intent( FormCadastro.this, FormPrincipal.class);
+        startActivity(intent);
+        finish();
+    }
+
+    private void CarregarTelaLogin() {
+        Intent intent = new Intent( FormCadastro.this, FormLogin.class);
         startActivity(intent);
         finish();
     }

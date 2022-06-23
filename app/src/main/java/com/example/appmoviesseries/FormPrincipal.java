@@ -18,6 +18,7 @@ import com.google.firebase.auth.FirebaseAuth;
 public class FormPrincipal extends AppCompatActivity {
 
     private Button btn_logoff;
+    private Button btn_tela_principal_catalogo;
     private Button btn_cadastrar_filmes;
 
     @Override
@@ -40,6 +41,13 @@ public class FormPrincipal extends AppCompatActivity {
             }
         });
 
+        btn_tela_principal_catalogo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listarFilmes();
+            }
+        });
+
         /* Botão CADASTRAR FILMES E SÉRIES */
         btn_cadastrar_filmes.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,6 +56,12 @@ public class FormPrincipal extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void listarFilmes() {
+        Intent intent = new Intent(FormPrincipal.this, FormListaFilmes.class);
+        startActivity(intent);
+        finish();
     }
 
     /* Carrega a Tela de Cadastro de Filmes */
@@ -66,6 +80,7 @@ public class FormPrincipal extends AppCompatActivity {
 
     private void IniciarComponentes() {
         btn_logoff = findViewById(R.id.btn_logoff);
+        btn_tela_principal_catalogo = findViewById(R.id.btn_principal_catalogo);
         btn_cadastrar_filmes = findViewById(R.id.btn_cadastrar_filmes);
     }
 

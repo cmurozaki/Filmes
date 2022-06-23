@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.appmoviesseries">
-<uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:label="@string/app_name"
         android:theme="@style/Theme.APPMoviesSeries">
-        <activity android:name=".FormCadastroFilmes"></activity>
+        <activity android:name=".FormListaFilmes"></activity>
+        <activity android:name=".FormCadastroFilmes" />
         <activity android:name=".FormPrincipal" />
         <activity android:name=".PerfilUsuario" />
         <activity android:name=".FormCadastro" />

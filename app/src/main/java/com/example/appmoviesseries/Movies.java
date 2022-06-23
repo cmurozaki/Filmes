@@ -2,18 +2,20 @@ package com.example.appmoviesseries;
 
 public class Movies<setter> {
 
-    private final String userId;
-    private final String titulo_portugues;
-    private final String titulo_original;
-    private final String genero;
-    private final String nota;
-    private final String producao;
-    private final String direcao;
-    private final String elenco;
-    private final String temporadas;
-    private final String sinopse;
-    private final String urlImagem;
+    private String userId;
+    private String titulo_portugues;
+    private String titulo_original;
+    private String genero;
+    private String nota;
+    private String producao;
+    private String direcao;
+    private String elenco;
+    private String temporadas;
+    private String sinopse;
+    private String urlImagem;
 
+    public Movies() {
+    }
 
     public Movies(String userId, String titulo_portugues, String titulo_original, String genero, String nota, String producao, String direcao, String elenco, String temporadas, String sinopse, String urlImagem) {
         this.userId = userId;
@@ -27,6 +29,14 @@ public class Movies<setter> {
         this.temporadas = temporadas;
         this.sinopse = sinopse;
         this.urlImagem = urlImagem;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public String getTitulo_portugues() {
+        return titulo_portugues;
     }
 
     public String getDirecao() {
@@ -61,16 +71,8 @@ public class Movies<setter> {
         return titulo_original;
     }
 
-    public String getTitulo_portugues() {
-        return titulo_portugues;
-    }
-
     public String getUrlImagem() {
         return urlImagem;
-    }
-
-    public String getUserId() {
-        return userId;
     }
 
 }

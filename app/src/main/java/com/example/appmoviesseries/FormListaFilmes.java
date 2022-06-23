@@ -33,6 +33,8 @@ public class FormListaFilmes extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form_lista_filmes);
 
+        getSupportActionBar().hide();       // Esconde a barra de ação
+        
         BuscarFilmes();
 
     }
@@ -49,7 +51,7 @@ public class FormListaFilmes extends AppCompatActivity {
                             return;
                         }
 
-                       List<DocumentSnapshot> docs = value.getDocuments();
+                        List<DocumentSnapshot> docs = value.getDocuments();
                         for (DocumentSnapshot doc: docs) {
                             Movies movies = doc.toObject(Movies.class);
                             Log.d( "Lista", movies.getTitulo_portugues());

@@ -12,7 +12,7 @@
     <string name="diretor">DIRETOR</string>
     <string name="ator_atriz">ATOR / ATRIZ</string>
     <string name="msg_logoff">Confirma sair do APP ?</string>
-    <string name="minha_lista">MINHA LISTA</string>
+    <string name="assistidos">ASSISTIDOS</string>
     <string name="cadastro_filmes">Cadastro de Filmes e Séries</string>
     <string name="voltar">Voltar</string>
     <string name="upload_imagem">Carregar Imagem</string>
@@ -31,9 +31,8 @@
         <item>Terror</item>
     </string-array>
     <string-array name="array_notas">
-        <item>Muito Bom</item>
+        <item>Ótimo</item>
         <item>Bom</item>
-        <item>Fraco</item>
-        <item>Muito Fraco</item>
+        <item>Regular</item>
     </string-array>
 </resources>

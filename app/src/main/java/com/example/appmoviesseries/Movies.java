@@ -1,5 +1,8 @@
 package com.example.appmoviesseries;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class Movies<setter> {
 
     private String userId;
@@ -13,6 +16,94 @@ public class Movies<setter> {
     private String temporadas;
     private String sinopse;
     private String urlImagem;
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getTitulo_portugues() {
+        return titulo_portugues;
+    }
+
+    public void setTitulo_portugues(String titulo_portugues) {
+        this.titulo_portugues = titulo_portugues;
+    }
+
+    public String getTitulo_original() {
+        return titulo_original;
+    }
+
+    public void setTitulo_original(String titulo_original) {
+        this.titulo_original = titulo_original;
+    }
+
+    public String getGenero() {
+        return genero;
+    }
+
+    public void setGenero(String genero) {
+        this.genero = genero;
+    }
+
+    public String getNota() {
+        return nota;
+    }
+
+    public void setNota(String nota) {
+        this.nota = nota;
+    }
+
+    public String getProducao() {
+        return producao;
+    }
+
+    public void setProducao(String producao) {
+        this.producao = producao;
+    }
+
+    public String getDirecao() {
+        return direcao;
+    }
+
+    public void setDirecao(String direcao) {
+        this.direcao = direcao;
+    }
+
+    public String getElenco() {
+        return elenco;
+    }
+
+    public void setElenco(String elenco) {
+        this.elenco = elenco;
+    }
+
+    public String getTemporadas() {
+        return temporadas;
+    }
+
+    public void setTemporadas(String temporadas) {
+        this.temporadas = temporadas;
+    }
+
+    public String getSinopse() {
+        return sinopse;
+    }
+
+    public void setSinopse(String sinopse) {
+        this.sinopse = sinopse;
+    }
+
+    public String getUrlImagem() {
+        return urlImagem;
+    }
+
+    public void setUrlImagem(String urlImagem) {
+        this.urlImagem = urlImagem;
+    }
 
     public Movies() {
     }
@@ -31,48 +122,9 @@ public class Movies<setter> {
         this.urlImagem = urlImagem;
     }
 
-    public String getUserId() {
-        return userId;
-    }
-
-    public String getTitulo_portugues() {
+    @Override
+    public String toString() {
         return titulo_portugues;
-    }
-
-    public String getDirecao() {
-        return direcao;
-    }
-
-    public String getElenco() {
-        return elenco;
-    }
-
-    public String getGenero() {
-        return genero;
-    }
-
-    public String getNota() {
-        return nota;
-    }
-
-    public String getProducao() {
-        return producao;
-    }
-
-    public String getSinopse() {
-        return sinopse;
-    }
-
-    public String getTemporadas() {
-        return temporadas;
-    }
-
-    public String getTitulo_original() {
-        return titulo_original;
-    }
-
-    public String getUrlImagem() {
-        return urlImagem;
     }
 
 }

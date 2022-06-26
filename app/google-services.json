@@ -1,10 +1,48 @@
 {
   "project_info": {
     "project_number": "912466307126",
+    "firebase_url": "https://moviesandseries-de9a7-default-rtdb.firebaseio.com",
     "project_id": "moviesandseries-de9a7",
     "storage_bucket": "moviesandseries-de9a7.appspot.com"
   },
   "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:912466307126:android:6e43a4325a8be4c2bd1097",
+        "android_client_info": {
+          "package_name": "com.example.appmoviesandseries"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "912466307126-60so3vvjgt4b9sidke10c3rrb6odq618.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.appmoviesandseries",
+            "certificate_hash": "16807f29f900e7287dec574ba10c387ea3de2237"
+          }
+        },
+        {
+          "client_id": "912466307126-86s04spmu5fj30t89l23outu9ulj6oim.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA1wmuqW1nJzRi9LJU6dco3sAVq_GMdxHE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "912466307126-86s04spmu5fj30t89l23outu9ulj6oim.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
     {
       "client_info": {
         "mobilesdk_app_id": "1:912466307126:android:9a335be8a51b8a57bd1097",

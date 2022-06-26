@@ -1,63 +1,145 @@
 package com.example.appmoviesseries;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.util.Log;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.auth.User;
+import com.squareup.picasso.Picasso;
+import com.xwray.groupie.GroupAdapter;
+import com.xwray.groupie.Item;
+import com.xwray.groupie.ViewHolder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FormListaFilmes extends AppCompatActivity {
 
     private FirebaseFirestore firebaseFirestore;
+    private ListView listView;
+
+    private List<Movies> moviesList = new ArrayList<Movies>();
+    private ArrayAdapter<Movies> moviesArrayAdapter;
+
+    private GroupAdapter adapter;
+
+    FirebaseDatabase firebase;
+    DatabaseReference databaseReference;
+
+    Button btnVoltar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form_lista_filmes);
 
+        RecyclerView rv = findViewById(R.id.recycler);
+
+        adapter = new GroupAdapter();
+        rv.setAdapter(adapter);
+        rv.setLayoutManager(new LinearLayoutManager(this));
+
         getSupportActionBar().hide();       // Esconde a barra de ação
-        
-        BuscarFilmes();
+
+        InicializarComponentes();
+
+        InicializarFirebase();
+
+        eventoDatabase();
+
+        /* Botão VOLTAR */
+        btnVoltar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(FormListaFilmes.this, FormPrincipal.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
     }
 
-    private void BuscarFilmes() {
-        firebaseFirestore = FirebaseFirestore.getInstance();
+    private void eventoDatabase() {
+        databaseReference.child("Filmes").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                moviesList.clear();
+                for (DataSnapshot dataSnapshot:snapshot.getChildren()) {
+                    // Movies movie = dataSnapshot.getValue(Movies.class);
+                    Filmes movie = dataSnapshot.getValue(Filmes.class);
+                    // moviesList.add(movie);
+                    adapter.add(new MovieItem(movie));
+                }
+                moviesArrayAdapter = new ArrayAdapter<Movies>(FormListaFilmes.this, android.R.layout.simple_list_item_1, moviesList);
+            }
 
-        firebaseFirestore.collection("filmes")
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                        if (error != null) {
-                            Log.e("Erro Lista", error.getMessage(), error);
-                            return;
-                        }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
-                        List<DocumentSnapshot> docs = value.getDocuments();
-                        for (DocumentSnapshot doc: docs) {
-                            Movies movies = doc.toObject(Movies.class);
-                            Log.d( "Lista", movies.getTitulo_portugues());
-                        }
-                    }
-                });
-
+            }
+        });
     }
-}
+
+    private class MovieItem extends Item<ViewHolder> {
+
+        private final Filmes movie;
+
+        private MovieItem(Filmes movie) {
+            this.movie = movie;
+        }
+
+
+        @Override
+        public void bind(@NonNull ViewHolder viewHolder, int position) {
+
+            TextView txtTituloPortugues = viewHolder.itemView.findViewById(R.id.txt_titulo_portugues);
+            TextView txtGenero = viewHolder.itemView.findViewById(R.id.txt_genero);
+            ImageView imgFilme = viewHolder.itemView.findViewById(R.id.imageView);
+
+            /* Textos */
+            txtTituloPortugues.setText(movie.getTitulo_portugues());
+            txtGenero.setText(movie.getGenero());
+
+            /* Imagem */
+            Picasso.get()
+                    .load(movie.getUrlImagem())
+                    .into(imgFilme);
+
+        }
+
+        @Override
+        public int getLayout() {
+            return R.layout.item_filme;
+        }
+    }
+
+    private void InicializarFirebase() {
+        FirebaseApp.initializeApp(FormListaFilmes.this);
+
+        firebase = FirebaseDatabase.getInstance();
+        //firebase.setPersistenceEnabled(true);
+
+        databaseReference = firebase.getReference();
+    }
+
+    private void InicializarComponentes() {
+        btnVoltar = findViewById(R.id.btn_lista_filmes_voltar);
+    }
+
+ }

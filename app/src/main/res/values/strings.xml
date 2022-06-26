@@ -17,7 +17,7 @@
     <string name="voltar">Voltar</string>
     <string name="upload_imagem">Carregar Imagem</string>
     <string name="ok">OK</string>
-    <string name="tamanho_imagem">Tamanho: 150x100 pixels</string>
+    <string name="tamanho_imagem">Tamanho: 100x67 pixels</string>
     <string name="formato_imagem">Formato: JPEG</string>
     <string name="confirma_voltar">Deseja sair desta tela ?</string>
     <string-array name="array_generos">

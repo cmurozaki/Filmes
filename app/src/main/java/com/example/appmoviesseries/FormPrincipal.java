@@ -1,10 +1,12 @@
 package com.example.appmoviesseries;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -33,31 +35,39 @@ public class FormPrincipal extends AppCompatActivity {
 
         /* LOGOFF */
         btn_logoff.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
+                btn_logoff.setTextColor(getColor(R.color.white));
                 confirmarLogoff(v);
                 /*FirebaseAuth.getInstance().signOut();
                 TelaLogin();*/
             }
         });
 
+        /* Botão LISTAR FILMES - CATÁLOGO */
         btn_tela_principal_catalogo.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
+                btn_tela_principal_catalogo.setTextColor(getColor(R.color.white));
                 listarFilmes();
             }
         });
 
         /* Botão CADASTRAR FILMES E SÉRIES */
         btn_cadastrar_filmes.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
+                btn_cadastrar_filmes.setTextColor(getColor(R.color.white));
                 cadastrarFilmes(v);
             }
         });
 
     }
 
+    /* Carrega a tela com a lista dos filmes */
     private void listarFilmes() {
         Intent intent = new Intent(FormPrincipal.this, FormListaFilmes.class);
         startActivity(intent);

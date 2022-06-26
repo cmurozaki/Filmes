@@ -52,6 +52,17 @@
         <item name="android:layout_marginTop">10dp</item>
     </style>
 
+    <style name="Item_Lista">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/item_lista</item>
+        <item name="android:textSize">10dp</item>
+        <item name="android:padding">1dp</item>
+        <item name="android:layout_marginLeft">20dp</item>
+        <item name="android:layout_marginRight">40dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+    </style>
+
     <style name="Button_Form">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>

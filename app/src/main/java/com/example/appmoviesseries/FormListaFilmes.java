@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
@@ -21,9 +22,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.auth.User;
 import com.squareup.picasso.Picasso;
 import com.xwray.groupie.GroupAdapter;
 import com.xwray.groupie.Item;
+import com.xwray.groupie.OnItemClickListener;
 import com.xwray.groupie.ViewHolder;
 
 import java.util.ArrayList;
@@ -38,6 +41,8 @@ public class FormListaFilmes extends AppCompatActivity {
     private ArrayAdapter<Movies> moviesArrayAdapter;
 
     private GroupAdapter adapter;
+
+    private String ordenarPor;
 
     FirebaseDatabase firebase;
     DatabaseReference databaseReference;
@@ -61,7 +66,19 @@ public class FormListaFilmes extends AppCompatActivity {
 
         InicializarFirebase();
 
-        eventoDatabase();
+        /* Selecionado um item da lista */
+        adapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(@NonNull Item item, @NonNull View view) {
+                MovieItem filmeSelecionado = (MovieItem) item;
+                Toast toast = Toast.makeText( getApplicationContext(), filmeSelecionado.movie.getDirecao().toString(), Toast.LENGTH_SHORT );
+                toast.show();
+            }
+        });
+
+        /* Lista os filmes */
+        ordenarPor = "titulo_portugues";
+        eventoDatabase(ordenarPor);
 
         /* Botão VOLTAR */
         btnVoltar.setOnClickListener(new View.OnClickListener() {
@@ -75,13 +92,13 @@ public class FormListaFilmes extends AppCompatActivity {
 
     }
 
-    private void eventoDatabase() {
-        databaseReference.child("Filmes").addValueEventListener(new ValueEventListener() {
+    private void eventoDatabase(String ordenarPor) {
+        databaseReference.child("Filmes").orderByChild(ordenarPor).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 moviesList.clear();
                 for (DataSnapshot dataSnapshot:snapshot.getChildren()) {
-                    // Movies movie = dataSnapshot.getValue(Movies.class);
+                    // Movies movie = dataSnapshot.getValue(Movies.class);      // Não funciona
                     Filmes movie = dataSnapshot.getValue(Filmes.class);
                     // moviesList.add(movie);
                     adapter.add(new MovieItem(movie));

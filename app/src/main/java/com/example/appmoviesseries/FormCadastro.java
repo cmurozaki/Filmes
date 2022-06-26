@@ -27,16 +27,20 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class FormCadastro extends AppCompatActivity {
 
@@ -54,7 +58,11 @@ public class FormCadastro extends AppCompatActivity {
                            "E-mail já cadastrado",                              // 4
                            "E-mail informado é inválido"};                      // 5
     String usuarioID;
+    String perfil;
     ProgressBar progressBar;
+
+    FirebaseDatabase firebase;
+    DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +72,8 @@ public class FormCadastro extends AppCompatActivity {
         getSupportActionBar().hide();       // Esconde a barra de ação
 
         IniciarComponentes();
+
+        InicializarFirebase();
 
         /* Náscara para o telefone. */
         // EditText edt_celular = (EditText) findViewById(R.id.edt_celular);
@@ -104,6 +114,15 @@ public class FormCadastro extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void InicializarFirebase() {
+        FirebaseApp.initializeApp(FormCadastro.this);
+
+        firebase = FirebaseDatabase.getInstance();
+        //firebase.setPersistenceEnabled(true);
+
+        databaseReference = firebase.getReference();
     }
 
     private void CadastrarUsuario(View v) {
@@ -157,10 +176,27 @@ public class FormCadastro extends AppCompatActivity {
     }
 
     private void SalvarDadosUsuario() {
+
         String nome = edt_nome.getText().toString();
         String celular = edt_celular.getText().toString();
-        String perfil = "user";     /* Inicialmente o perfil é de usuário */
+        perfil = "user";     /* Inicialmente o perfil é de usuário */
 
+        /* ------------------------------------------------------------------ */
+        /* Cadastro do usuário - Realtime */
+        Users user = new Users();
+
+        user.setUserId(UUID.randomUUID().toString());
+        user.setNome(edt_nome.getText().toString());
+        user.setCelular(edt_celular.getText().toString());
+        user.setPerfil("usuario");
+
+        databaseReference.child("Users").child(user.getUserId()).setValue(user);
+        /* Cadastro do usuário - Realtime */
+        /* ------------------------------------------------------------------ */
+
+
+        /* ------------------------------------------------------------------ */
+        /* Cadastro do usuário - Firestore */
         /* Faz a instância do banco de dados */
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -187,6 +223,8 @@ public class FormCadastro extends AppCompatActivity {
                 Log.d("db_erro", "Erro ao gravar os dados do cadastro" + e.toString());
             }
         });
+        /* Cadastro do usuário - Firestore */
+        /* ------------------------------------------------------------------ */
 
     }
 

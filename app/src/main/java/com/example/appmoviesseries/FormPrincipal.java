@@ -13,7 +13,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 /* TELA PRINCIPAL - Contém todas as opções do aplicativo */
 
@@ -23,7 +26,10 @@ public class FormPrincipal extends AppCompatActivity {
     private Button btn_tela_principal_catalogo;
     private Button btn_cadastrar_filmes;
 
+    FirebaseDatabase firebase;
+    DatabaseReference databaseReference;
     @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form_principal);
@@ -32,6 +38,10 @@ public class FormPrincipal extends AppCompatActivity {
         getSupportActionBar().hide();
 
         IniciarComponentes();
+
+        InicializarFirebase();
+
+        NomeUsuario();
 
         /* LOGOFF */
         btn_logoff.setOnClickListener(new View.OnClickListener() {
@@ -64,6 +74,10 @@ public class FormPrincipal extends AppCompatActivity {
                 cadastrarFilmes(v);
             }
         });
+
+    }
+
+    private void NomeUsuario() {
 
     }
 
@@ -113,6 +127,15 @@ public class FormPrincipal extends AppCompatActivity {
         });
         AlertDialog alerta = builder.create();
         alerta.show();
+    }
+
+    private void InicializarFirebase() {
+        FirebaseApp.initializeApp(FormPrincipal.this);
+
+        firebase = FirebaseDatabase.getInstance();
+        //firebase.setPersistenceEnabled(true);
+
+        databaseReference = firebase.getReference();
     }
 
     /* Faz o logoff do Firebase */

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_form_login"
+    tools:context=".FormExibeFilme">
+
+    <View
+        android:id="@+id/containerComponentsExibeFilme"
+        style="@style/ContainerComponentsExibeFilme"
+        android:layout_marginTop="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/img_exibe_filme"
+        android:layout_width="100dp"
+        android:layout_height="67dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="@+id/containerComponentsExibeFilme"
+        app:layout_constraintTop_toTopOf="@+id/containerComponentsExibeFilme"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/txt_exibe_titulo_portugues"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="TÍTULO EM PORTUGUÊS"
+        android:textSize="12dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/img_exibe_filme"
+        app:layout_constraintTop_toTopOf="@+id/img_exibe_filme" />
+
+    <TextView
+        android:id="@+id/txt_exibe_titulo_original"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Título Original"
+        android:textStyle="italic"
+        android:textSize="10dp"
+        app:layout_constraintStart_toEndOf="@+id/img_exibe_filme"
+        app:layout_constraintTop_toBottomOf="@+id/txt_exibe_titulo_portugues" />
+
+    <TextView
+        android:id="@+id/txt_exibe_genero"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Gênero"
+        android:textSize="11dp"
+        app:layout_constraintStart_toEndOf="@+id/img_exibe_filme"
+        app:layout_constraintTop_toBottomOf="@+id/txt_exibe_titulo_original" />
+
+    <TextView
+        android:id="@+id/txt_exibe_producao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="PRODUÇÃO"
+        android:textSize="10dp"
+        app:layout_constraintStart_toEndOf="@+id/txt_exibe_genero"
+        app:layout_constraintTop_toTopOf="@+id/txt_exibe_genero" />
+
+    <TextView
+        android:id="@+id/txt_exibe_direcao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Direção"
+        android:textSize="10dp"
+        app:layout_constraintStart_toEndOf="@+id/img_exibe_filme"
+        app:layout_constraintTop_toBottomOf="@+id/txt_exibe_genero" />
+
+    <TextView
+        android:id="@+id/txt_exibe_elenco"
+        android:layout_width="245dp"
+        android:layout_height="27dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:minLines="2"
+        android:text="Elenco"
+        android:textSize="10dp"
+        app:layout_constraintStart_toEndOf="@+id/img_exibe_filme"
+        app:layout_constraintTop_toBottomOf="@+id/txt_exibe_direcao" />
+
+    <TextView
+        android:id="@+id/txt_exibe_filme_serie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Filme / Série"
+        android:textSize="10dp"
+        app:layout_constraintStart_toStartOf="@+id/containerComponentsExibeFilme"
+        app:layout_constraintTop_toBottomOf="@+id/img_exibe_filme" />
+
+    <TextView
+        android:id="@+id/txt_exibe_temporadas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Temporadas"
+        android:textSize="10dp"
+        app:layout_constraintStart_toStartOf="@+id/containerComponentsExibeFilme"
+        app:layout_constraintTop_toBottomOf="@+id/txt_exibe_filme_serie" />
+
+    <TextView
+        android:id="@+id/txt_exibe_sinopse"
+        android:layout_width="244dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="8dp"
+        android:text="Sinopse"
+        android:textSize="10dp"
+        android:minLines="6"
+        app:layout_constraintStart_toStartOf="@+id/txt_exibe_elenco"
+        app:layout_constraintTop_toBottomOf="@+id/txt_exibe_elenco" />
+
+    <TextView
+        android:id="@+id/txt_exibe_nota"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/aguafina_script"
+        android:text="Nota"
+        android:textSize="8dp"
+        app:layout_constraintStart_toStartOf="@+id/txt_exibe_temporadas"
+        app:layout_constraintTop_toBottomOf="@+id/txt_exibe_temporadas" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

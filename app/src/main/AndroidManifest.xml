@@ -11,10 +11,10 @@
         android:roundIcon="@mipmap/logo_filmes_e_series"
         android:supportsRtl="true"
         android:theme="@style/Theme.APPMoviesSeries">
+        <activity android:name=".FormExibeFilme"></activity>
         <activity
             android:name=".FormListaFilmes"
-            android:label="@string/app_name">
-        </activity>
+            android:label="@string/app_name"></activity>
         <activity android:name=".FormCadastroFilmes" />
         <activity android:name=".FormPrincipal" />
         <activity android:name=".PerfilUsuario" />
@@ -30,6 +30,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

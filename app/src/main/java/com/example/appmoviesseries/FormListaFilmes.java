@@ -70,7 +70,24 @@ public class FormListaFilmes extends AppCompatActivity {
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(@NonNull Item item, @NonNull View view) {
+
                 MovieItem filmeSelecionado = (MovieItem) item;
+
+                ArrayList<String> nomes_campos = new ArrayList<>();
+
+                nomes_campos.add(filmeSelecionado.movie.getTitulo_portugues());
+                nomes_campos.add(filmeSelecionado.movie.getTitulo_original());
+                nomes_campos.add(filmeSelecionado.movie.getDirecao());
+                nomes_campos.add(filmeSelecionado.movie.getProducao());
+                nomes_campos.add(filmeSelecionado.movie.getNota());
+                nomes_campos.add(filmeSelecionado.movie.getElenco());
+                nomes_campos.add(filmeSelecionado.movie.getSinopse());
+                nomes_campos.add(filmeSelecionado.movie.getTemporadas());
+                nomes_campos.add(filmeSelecionado.movie.getGenero());
+                nomes_campos.add(filmeSelecionado.movie.getFilme_serie());
+
+                CarregaTelaExibeFilme( nomes_campos );
+
                 Toast toast = Toast.makeText( getApplicationContext(), filmeSelecionado.movie.getDirecao().toString(), Toast.LENGTH_SHORT );
                 toast.show();
             }
@@ -90,6 +107,14 @@ public class FormListaFilmes extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void CarregaTelaExibeFilme(ArrayList<String> campos) {
+        Intent intent = new Intent(FormListaFilmes.this, FormExibeFilme.class);
+        intent.putStringArrayListExtra("exibe_filme", campos);
+        // intent.putExtra("exibe_filme", campos );
+        startActivity(intent);
+        finish();
     }
 
     private void eventoDatabase(String ordenarPor) {

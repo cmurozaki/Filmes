@@ -30,6 +30,13 @@
         <item name="android:layout_margin">20dp</item>
     </style>
 
+    <style name="ContainerComponentsExibeFilme">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">650dp</item>
+        <item name="android:background">@drawable/container_exibe_filme</item>
+        <item name="android:layout_margin">20dp</item>
+    </style>
+
     <style name="Edit_Text_Form">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>

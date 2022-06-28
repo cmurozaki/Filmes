@@ -142,6 +142,15 @@ public class FormCadastroFilmes extends AppCompatActivity {
 
             Movies movie = new Movies();
 
+            /* Identifica se foi selecionado FILME ou SÉRIE */
+            String filme_serie;
+            int itemRadioGroupSelecionado = radioGroup.getCheckedRadioButtonId();
+            if (itemRadioGroupSelecionado == 0) {
+                filme_serie = "Filme";
+            } else {
+                filme_serie = "Série";
+            }
+
             movie.setUserId(UUID.randomUUID().toString());
             movie.setTitulo_portugues(edt_titulo_portugues.getText().toString());
             movie.setTitulo_original(edt_titulo_original.getText().toString());
@@ -151,6 +160,7 @@ public class FormCadastroFilmes extends AppCompatActivity {
             movie.setElenco(edt_elenco.getText().toString());
             movie.setSinopse(edt_sinopse.getText().toString());
             movie.setNota(spinner_notas.getSelectedItem().toString());
+            movie.setFilme_serie(filme_serie);
             movie.setUrlImagem(urlImagem);
 
             databaseReference.child("Filmes").child(movie.getUserId()).setValue(movie);

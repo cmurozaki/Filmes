@@ -16,6 +16,15 @@ public class Movies<setter> {
     private String temporadas;
     private String sinopse;
     private String urlImagem;
+    private String filme_serie;
+
+    public String getFilme_serie() {
+        return filme_serie;
+    }
+
+    public void setFilme_serie(String filme_serie) {
+        this.filme_serie = filme_serie;
+    }
 
     public String getUserId() {
         return userId;

@@ -27,35 +27,37 @@
 
     <TextView
         android:id="@+id/txt_exibe_titulo_portugues"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="240dp"
+        android:layout_height="18dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:text="TÍTULO EM PORTUGUÊS"
+        android:textColor="@color/purple_500"
         android:textSize="12dp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/img_exibe_filme"
-        app:layout_constraintTop_toTopOf="@+id/img_exibe_filme" />
+        app:layout_constraintTop_toTopOf="@+id/containerComponentsExibeFilme" />
 
     <TextView
         android:id="@+id/txt_exibe_titulo_original"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="116dp"
         android:text="Título Original"
-        android:textStyle="italic"
         android:textSize="10dp"
+        android:textStyle="italic"
         app:layout_constraintStart_toEndOf="@+id/img_exibe_filme"
+        app:layout_constraintStart_toStartOf="@+id/containerComponentsExibeFilme"
         app:layout_constraintTop_toBottomOf="@+id/txt_exibe_titulo_portugues" />
 
     <TextView
         android:id="@+id/txt_exibe_genero"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="Gênero"
         android:textSize="11dp"
-        app:layout_constraintStart_toEndOf="@+id/img_exibe_filme"
+        app:layout_constraintStart_toStartOf="@+id/txt_exibe_titulo_original"
         app:layout_constraintTop_toBottomOf="@+id/txt_exibe_titulo_original" />
 
     <TextView
@@ -64,31 +66,32 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:text="PRODUÇÃO"
-        android:textSize="10dp"
+        android:textSize="11dp"
         app:layout_constraintStart_toEndOf="@+id/txt_exibe_genero"
         app:layout_constraintTop_toTopOf="@+id/txt_exibe_genero" />
 
     <TextView
         android:id="@+id/txt_exibe_direcao"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_width="242dp"
+        android:layout_height="19dp"
         android:layout_marginTop="8dp"
         android:text="Direção"
-        android:textSize="10dp"
-        app:layout_constraintStart_toEndOf="@+id/img_exibe_filme"
-        app:layout_constraintTop_toBottomOf="@+id/txt_exibe_genero" />
+        android:textSize="11dp"
+        app:layout_constraintStart_toStartOf="@+id/txt_exibe_genero"
+        app:layout_constraintTop_toBottomOf="@+id/txt_exibe_producao" />
 
     <TextView
         android:id="@+id/txt_exibe_elenco"
-        android:layout_width="245dp"
+        android:layout_width="240dp"
         android:layout_height="27dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
         android:minLines="2"
         android:text="Elenco"
-        android:textSize="10dp"
-        app:layout_constraintStart_toEndOf="@+id/img_exibe_filme"
+        android:textAlignment="textStart"
+        android:textSize="11dp"
+        app:layout_constraintEnd_toEndOf="@+id/containerComponentsExibeFilme"
+        app:layout_constraintStart_toStartOf="@+id/txt_exibe_direcao"
         app:layout_constraintTop_toBottomOf="@+id/txt_exibe_direcao" />
 
     <TextView
@@ -98,7 +101,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="Filme / Série"
-        android:textSize="10dp"
+        android:textSize="11dp"
         app:layout_constraintStart_toStartOf="@+id/containerComponentsExibeFilme"
         app:layout_constraintTop_toBottomOf="@+id/img_exibe_filme" />
 
@@ -108,18 +111,20 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:text="Temporadas"
-        android:textSize="10dp"
+        android:textSize="11dp"
         app:layout_constraintStart_toStartOf="@+id/containerComponentsExibeFilme"
         app:layout_constraintTop_toBottomOf="@+id/txt_exibe_filme_serie" />
 
     <TextView
         android:id="@+id/txt_exibe_sinopse"
-        android:layout_width="244dp"
+        android:layout_width="240dp"
         android:layout_height="120dp"
         android:layout_marginTop="8dp"
-        android:text="Sinopse"
-        android:textSize="10dp"
         android:minLines="6"
+        android:text="Sinopse"
+        android:textAlignment="viewStart"
+        android:textSize="12dp"
+        app:layout_constraintEnd_toEndOf="@+id/txt_exibe_elenco"
         app:layout_constraintStart_toStartOf="@+id/txt_exibe_elenco"
         app:layout_constraintTop_toBottomOf="@+id/txt_exibe_elenco" />
 
@@ -128,10 +133,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:fontFamily="@font/aguafina_script"
         android:text="Nota"
-        android:textSize="8dp"
+        android:textSize="11dp"
         app:layout_constraintStart_toStartOf="@+id/txt_exibe_temporadas"
         app:layout_constraintTop_toBottomOf="@+id/txt_exibe_temporadas" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_exibe_filme_voltar"
+        style="@style/Button_Form_Cadastro_Filmes"
+        android:layout_marginBottom="16dp"
+        android:text="@string/voltar"
+        app:layout_constraintBottom_toBottomOf="@+id/containerComponentsExibeFilme"
+        app:layout_constraintEnd_toEndOf="@+id/containerComponentsExibeFilme"
+        app:layout_constraintStart_toStartOf="@+id/containerComponentsExibeFilme" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

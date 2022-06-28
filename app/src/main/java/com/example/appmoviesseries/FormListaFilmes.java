@@ -75,21 +75,20 @@ public class FormListaFilmes extends AppCompatActivity {
 
                 ArrayList<String> nomes_campos = new ArrayList<>();
 
-                nomes_campos.add(filmeSelecionado.movie.getTitulo_portugues());
-                nomes_campos.add(filmeSelecionado.movie.getTitulo_original());
-                nomes_campos.add(filmeSelecionado.movie.getDirecao());
-                nomes_campos.add(filmeSelecionado.movie.getProducao());
-                nomes_campos.add(filmeSelecionado.movie.getNota());
-                nomes_campos.add(filmeSelecionado.movie.getElenco());
-                nomes_campos.add(filmeSelecionado.movie.getSinopse());
-                nomes_campos.add(filmeSelecionado.movie.getTemporadas());
-                nomes_campos.add(filmeSelecionado.movie.getGenero());
-                nomes_campos.add(filmeSelecionado.movie.getFilme_serie());
+                nomes_campos.add(filmeSelecionado.movie.getTitulo_portugues());     // 0
+                nomes_campos.add(filmeSelecionado.movie.getTitulo_original());      // 1
+                nomes_campos.add(filmeSelecionado.movie.getDirecao());              // 2
+                nomes_campos.add(filmeSelecionado.movie.getProducao());             // 3
+                nomes_campos.add(filmeSelecionado.movie.getNota());                 // 4
+                nomes_campos.add(filmeSelecionado.movie.getElenco());               // 5
+                nomes_campos.add(filmeSelecionado.movie.getSinopse());              // 6
+                nomes_campos.add(filmeSelecionado.movie.getTemporadas());           // 7
+                nomes_campos.add(filmeSelecionado.movie.getGenero());               // 8
+                nomes_campos.add(filmeSelecionado.movie.getFilme_serie());          // 9
+                nomes_campos.add(filmeSelecionado.movie.getUrlImagem());            // 10
 
                 CarregaTelaExibeFilme( nomes_campos );
 
-                Toast toast = Toast.makeText( getApplicationContext(), filmeSelecionado.movie.getDirecao().toString(), Toast.LENGTH_SHORT );
-                toast.show();
             }
         });
 

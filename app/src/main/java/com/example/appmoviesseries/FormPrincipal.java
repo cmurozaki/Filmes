@@ -1,5 +1,7 @@
 package com.example.appmoviesseries;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,11 +14,24 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /* TELA PRINCIPAL - Contém todas as opções do aplicativo */
 
@@ -25,11 +40,16 @@ public class FormPrincipal extends AppCompatActivity {
     private Button btn_logoff;
     private Button btn_tela_principal_catalogo;
     private Button btn_cadastrar_filmes;
+    private TextView txt_nome_usuario;
 
     FirebaseDatabase firebase;
+    FirebaseFirestore firebaseFirestore;
     DatabaseReference databaseReference;
-    @Override
+    DatabaseReference usuarios;
 
+    Boolean isADM = false;
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form_principal);
@@ -40,8 +60,6 @@ public class FormPrincipal extends AppCompatActivity {
         IniciarComponentes();
 
         InicializarFirebase();
-
-        NomeUsuario();
 
         /* LOGOFF */
         btn_logoff.setOnClickListener(new View.OnClickListener() {
@@ -77,10 +95,6 @@ public class FormPrincipal extends AppCompatActivity {
 
     }
 
-    private void NomeUsuario() {
-
-    }
-
     /* Carrega a tela com a lista dos filmes */
     private void listarFilmes() {
         Intent intent = new Intent(FormPrincipal.this, FormListaFilmes.class);
@@ -106,6 +120,7 @@ public class FormPrincipal extends AppCompatActivity {
         btn_logoff = findViewById(R.id.btn_logoff);
         btn_tela_principal_catalogo = findViewById(R.id.btn_principal_catalogo);
         btn_cadastrar_filmes = findViewById(R.id.btn_cadastrar_filmes);
+        txt_nome_usuario = findViewById(R.id.txtUsuario);
     }
 
     private void confirmarLogoff(View v) {
@@ -130,13 +145,61 @@ public class FormPrincipal extends AppCompatActivity {
     }
 
     private void InicializarFirebase() {
+
         FirebaseApp.initializeApp(FormPrincipal.this);
 
         firebase = FirebaseDatabase.getInstance();
-        //firebase.setPersistenceEnabled(true);
-
         databaseReference = firebase.getReference();
+
+        /* ID do usuário logado */
+        String usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        /* Pesquisa no Realtime de acordo com o path/campo */
+        /* Caminho: /Users/<id usuário>/"nome" */
+        DatabaseReference nome_usuario = databaseReference.child("Users").child(usuarioID).child("nome");
+
+        nome_usuario.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                final String value;
+                value = snapshot.getValue().toString();
+                txt_nome_usuario.setText("Olá, " + value);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+
+        });
+
+        /* Verifica se o perfil do usuário é de ADM */
+        DatabaseReference perfil_usuario = databaseReference.child("Users").child(usuarioID).child("perfil");
+
+        perfil_usuario.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                final String value;
+                value = snapshot.getValue().toString();
+                if (value.equals("adm")) {
+                    isADM = true;
+                    btn_cadastrar_filmes.setVisibility(View.VISIBLE);
+                } else {
+                    btn_cadastrar_filmes.setVisibility(View.INVISIBLE);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+
+        });
+        /* Verifica se o perfil do usuário é de ADM */
+
     }
+
+
 
     /* Faz o logoff do Firebase */
     private void sairAplicativo() {

@@ -44,6 +44,9 @@ import java.util.UUID;
 
 public class FormCadastro extends AppCompatActivity {
 
+    /* ID do usuário autenticado */
+    public String[] UID_user = {""};
+
     private EditText edt_nome;
     private EditText edt_email;
     private EditText edt_celular;
@@ -185,7 +188,11 @@ public class FormCadastro extends AppCompatActivity {
         /* Cadastro do usuário - Realtime */
         Users user = new Users();
 
-        user.setUserId(UUID.randomUUID().toString());
+        /* Recupera o ID do usuário - Autenticação */
+        UID_user[0] = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        user.setUserId(UID_user[0].toString());
+
+        // user.setUserId(UUID.randomUUID().toString());
         user.setNome(edt_nome.getText().toString());
         user.setCelular(edt_celular.getText().toString());
         user.setPerfil("usuario");

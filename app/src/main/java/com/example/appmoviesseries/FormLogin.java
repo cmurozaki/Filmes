@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -24,6 +25,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class FormLogin extends AppCompatActivity {
+
+    /* ID do usuário autenticado */
+    public String[] UID_user = {""};
 
     private TextView txt_tela_cadastro;
     private EditText edt_email;
@@ -86,6 +90,8 @@ public class FormLogin extends AppCompatActivity {
                             TelaPrincipal();
                         }
                     }, 3000);
+                    /* Recupera o ID do usuário - Autenticação */
+                    UID_user[0] = FirebaseAuth.getInstance().getCurrentUser().getUid();
                 } else {
                     String erro;
                     try {

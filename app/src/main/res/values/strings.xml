@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Catálogo de Filmes e Séries</string>
+    <string name="app_name">Movies Guide</string>
     <string name="entrar">Entrar</string>
     <string name="sair">Sair</string>
     <string name="txt_cadastrar">Não tem conta ainda? Clique aqui</string>

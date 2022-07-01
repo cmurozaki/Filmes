@@ -6,12 +6,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnCreateContextMenuListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +25,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.auth.User;
@@ -30,6 +36,7 @@ import com.xwray.groupie.OnItemClickListener;
 import com.xwray.groupie.ViewHolder;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class FormListaFilmes extends AppCompatActivity {
@@ -54,13 +61,21 @@ public class FormListaFilmes extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form_lista_filmes);
 
+        /* RecyclerView - Exibe a lista de filmes */
         RecyclerView rv = findViewById(R.id.recycler);
 
         adapter = new GroupAdapter();
         rv.setAdapter(adapter);
         rv.setLayoutManager(new LinearLayoutManager(this));
+        /* RecyclerView - Exibe a lista de filmes */
 
-        getSupportActionBar().hide();       // Esconde a barra de ação
+        /* Barra de Ação */
+        // Esconde a barra de ação:
+        //getSupportActionBar().hide();
+
+        // Altera a cor de fundo:
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.black)));
+        /* Barra de Ação */
 
         InicializarComponentes();
 
@@ -108,16 +123,115 @@ public class FormListaFilmes extends AppCompatActivity {
 
     }
 
+    /* Exibe as opções de menu */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+
+        /* Pesquisar Filmes */
+        MenuItem pesquisar = menu.findItem(R.id.menu_busca);
+        SearchView edt_pesquisar = (SearchView) pesquisar.getActionView();
+        edt_pesquisar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                pesquisaFilmes(newText.toUpperCase());
+                return true;
+            }
+        });
+        /* Pesquisar Filmes */
+
+        return super.onCreateOptionsMenu(menu);
+
+    }
+
+
+    /* Item selecionado no menu */
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+
+        if (id==R.id.menu_busca) {
+            Toast toast = Toast.makeText(getApplicationContext(), "ok", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+
+        return super.onOptionsItemSelected(item);
+
+    }
+
     private void CarregaTelaExibeFilme(ArrayList<String> campos) {
         Intent intent = new Intent(FormListaFilmes.this, FormExibeFilme.class);
         intent.putStringArrayListExtra("exibe_filme", campos);
-        // intent.putExtra("exibe_filme", campos );
         startActivity(intent);
         finish();
     }
 
+
+    ValueEventListener valueEventListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot snapshot) {
+            moviesList.clear();
+            for (DataSnapshot dataSnapshot:snapshot.getChildren()) {
+                // Movies movie = dataSnapshot.getValue(Movies.class);      // Não funciona
+                Filmes movie = dataSnapshot.getValue(Filmes.class);
+                // moviesList.add(movie);
+                adapter.add(new MovieItem(movie));
+            }
+            moviesArrayAdapter = new ArrayAdapter<Movies>(FormListaFilmes.this, android.R.layout.simple_list_item_1, moviesList);
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError error) {
+
+        }
+    };
+
     private void eventoDatabase(String ordenarPor) {
-        databaseReference.child("Filmes").orderByChild(ordenarPor).addValueEventListener(new ValueEventListener() {
+        /* Lista todos os filmes */
+        //databaseReference.orderByChild(ordenarPor)
+        //        .addListenerForSingleValueEvent(valueEventListener);
+
+        Query query = databaseReference.orderByChild(ordenarPor);
+
+        /* Lista registros iguais */
+        /*
+        Query query = databaseReference.orderByChild(ordenarPor)
+                .equalTo("OZARK");
+        */
+
+        /* Lista registros que começam com 2, por exemmplo */
+        /*
+        Query query = databaseReference.orderByChild(ordenarPor)
+                .startAt("2")
+                .endAt("2\uf8ff");
+        */
+
+        query.addListenerForSingleValueEvent(valueEventListener);
+
+    }
+
+
+    private void pesquisaFilmes(String newText) {
+        moviesList.clear();
+        // FirebaseFirestore.getInstance().collection("Filmes").whereIn("titulo_original", Collections.singletonList(newText));
+        Query query = databaseReference.orderByChild("titulo_original")
+                .startAt(newText)
+                .endAt(newText+"\uf8ff");
+
+        query.addListenerForSingleValueEvent(valueEventListener);
+        adapter.clear();
+    }
+
+    /*
+    private void eventoDatabase(String ordenarPor) {
+        //atabaseReference.child("Filmes").orderByChild(ordenarPor)
+        databaseReference.orderByChild(ordenarPor)
+                .addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 moviesList.clear();
@@ -136,6 +250,7 @@ public class FormListaFilmes extends AppCompatActivity {
             }
         });
     }
+    */
 
     private class MovieItem extends Item<ViewHolder> {
 
@@ -170,13 +285,16 @@ public class FormListaFilmes extends AppCompatActivity {
         }
     }
 
+
+    /* Inicializa o Realtime Firebase e faz referência a tabela FILMES */
     private void InicializarFirebase() {
         FirebaseApp.initializeApp(FormListaFilmes.this);
 
         firebase = FirebaseDatabase.getInstance();
         //firebase.setPersistenceEnabled(true);
 
-        databaseReference = firebase.getReference();
+        databaseReference = firebase.getReference("Filmes");
+        //databaseReference = firebase.getReference();
     }
 
     private void InicializarComponentes() {

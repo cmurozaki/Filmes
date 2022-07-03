@@ -11,14 +11,12 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnCreateContextMenuListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
@@ -28,7 +26,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.auth.User;
 import com.squareup.picasso.Picasso;
 import com.xwray.groupie.GroupAdapter;
 import com.xwray.groupie.Item;
@@ -36,7 +33,6 @@ import com.xwray.groupie.OnItemClickListener;
 import com.xwray.groupie.ViewHolder;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class FormListaFilmes extends AppCompatActivity {
@@ -55,6 +51,9 @@ public class FormListaFilmes extends AppCompatActivity {
     DatabaseReference databaseReference;
 
     Button btnVoltar;
+
+    /* Exibição de mensagens */
+    Filmes mensagem = new Filmes();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,6 +130,7 @@ public class FormListaFilmes extends AppCompatActivity {
         /* Pesquisar Filmes */
         MenuItem pesquisar = menu.findItem(R.id.menu_busca);
         SearchView edt_pesquisar = (SearchView) pesquisar.getActionView();
+        edt_pesquisar.setQueryHint("Informe a PRIMEIRA letra para busca");
         edt_pesquisar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -139,7 +139,11 @@ public class FormListaFilmes extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                pesquisaFilmes(newText.toUpperCase());
+                if (newText.length()==1) {
+                    pesquisaFilmes(newText.toUpperCase());
+                } else {
+                    mensagem.msg_toast(getApplicationContext(), "Busca pela PRIMEIRA letra");
+                }
                 return true;
             }
         });
@@ -156,8 +160,6 @@ public class FormListaFilmes extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id==R.id.menu_busca) {
-            Toast toast = Toast.makeText(getApplicationContext(), "ok", Toast.LENGTH_SHORT);
-            toast.show();
         }
 
         return super.onOptionsItemSelected(item);
@@ -218,8 +220,7 @@ public class FormListaFilmes extends AppCompatActivity {
 
     private void pesquisaFilmes(String newText) {
         moviesList.clear();
-        // FirebaseFirestore.getInstance().collection("Filmes").whereIn("titulo_original", Collections.singletonList(newText));
-        Query query = databaseReference.orderByChild("titulo_original")
+        Query query = databaseReference.orderByChild("titulo_portugues")
                 .startAt(newText)
                 .endAt(newText+"\uf8ff");
 

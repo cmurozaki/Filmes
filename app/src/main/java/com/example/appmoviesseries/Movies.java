@@ -9,7 +9,7 @@ public class Movies<setter> {
     private String titulo_portugues;
     private String titulo_original;
     private String genero;
-    private String nota;
+    private String avaliacao_editor;
     private String producao;
     private String direcao;
     private String elenco;
@@ -59,11 +59,11 @@ public class Movies<setter> {
     }
 
     public String getNota() {
-        return nota;
+        return avaliacao_editor;
     }
 
     public void setNota(String nota) {
-        this.nota = nota;
+        this.avaliacao_editor = nota;
     }
 
     public String getProducao() {
@@ -122,7 +122,7 @@ public class Movies<setter> {
         this.titulo_portugues = titulo_portugues;
         this.titulo_original = titulo_original;
         this.genero = genero;
-        this.nota = nota;
+        this.avaliacao_editor = nota;
         this.producao = producao;
         this.direcao = direcao;
         this.elenco = elenco;

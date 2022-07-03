@@ -8,6 +8,7 @@ import android.os.Parcelable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.google.firebase.FirebaseApp;
@@ -26,12 +27,20 @@ public class FormExibeFilme extends AppCompatActivity {
     TextView txt_elenco;
     TextView txt_temporadas;
     TextView tzt_sinopse;
-    TextView txt_nota;
+    TextView txt_avaliacao_editor;
     TextView txt_genero;
     TextView txt_filme_serie;
     ImageView img_filme;
+    RatingBar ratingBarEditor;
 
     Button btnVoltar;
+
+    private String[] avaliacao = {
+            "Excepcional",
+            "Ótimo",
+            "Bom",
+            "Regular",
+            "Fraco" };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,10 +76,11 @@ public class FormExibeFilme extends AppCompatActivity {
         tzt_sinopse = findViewById(R.id.txt_exibe_sinopse);
         txt_elenco = findViewById(R.id.txt_exibe_elenco);
         txt_temporadas = findViewById(R.id.txt_exibe_temporadas);
-        txt_nota = findViewById(R.id.txt_exibe_nota);
+        txt_avaliacao_editor = findViewById(R.id.txt_exibe_avaliacao_editor);
         txt_filme_serie = findViewById(R.id.txt_exibe_filme_serie);
         btnVoltar = findViewById(R.id.btn_exibe_filme_voltar);
         img_filme = findViewById(R.id.img_exibe_filme);
+        ratingBarEditor = findViewById(R.id.ratingBarEditor);
 
     }
 
@@ -89,7 +99,7 @@ public class FormExibeFilme extends AppCompatActivity {
         String elenco = "";
         String filme_serie = "";
         String temporadas = "";
-        String nota = "";
+        String avaliacao_editor = "";
         String genero = "";
         String sinopse = "";
         String urlImagem = "";
@@ -111,7 +121,7 @@ public class FormExibeFilme extends AppCompatActivity {
         }
 
         if (lista.get(4) != null) {
-            nota = lista.get(4).toString();
+            avaliacao_editor = lista.get(4).toString();
         }
 
         if (lista.get(5) != null) {
@@ -142,12 +152,14 @@ public class FormExibeFilme extends AppCompatActivity {
         tzt_titulo_original.setText(tituloOriginal);
         txt_direcao.setText(direcao);
         txt_producao.setText(producao);
-        txt_nota.setText(nota);
+        txt_avaliacao_editor.setText(avaliacao_editor);
         txt_elenco.setText(elenco);
         tzt_sinopse.setText(sinopse);
         txt_temporadas.setText(temporadas);
         txt_genero.setText(genero);
         txt_filme_serie.setText(filme_serie);
+
+        retornaRaiting(avaliacao_editor);
 
         /* Imagem */
         Picasso.get()
@@ -156,5 +168,20 @@ public class FormExibeFilme extends AppCompatActivity {
 
     }
 
+    private void retornaRaiting(String aval) {
+
+        if (aval.equals(avaliacao[0])) {
+            ratingBarEditor.setRating(5);
+        } else if (aval.equals(avaliacao[1])) {
+            ratingBarEditor.setRating(4);
+        } else if (aval.equals(avaliacao[2])) {
+            ratingBarEditor.setRating(3);
+        } else if (aval.equals(avaliacao[3])) {
+            ratingBarEditor.setRating(2);
+        } else if (aval.equals(avaliacao[4])) {
+            ratingBarEditor.setRating(1);
+        }
+
+    }
 
 }

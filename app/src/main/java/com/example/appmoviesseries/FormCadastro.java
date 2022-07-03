@@ -67,6 +67,9 @@ public class FormCadastro extends AppCompatActivity {
     FirebaseDatabase firebase;
     DatabaseReference databaseReference;
 
+    /* Exibição de mensagens */
+    Filmes mensagem = new Filmes();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -147,8 +150,7 @@ public class FormCadastro extends AppCompatActivity {
                         public void run() { CarregarTelaPrincipal(); }
                     }, 3000 );
 
-                    Toast toast = Toast.makeText(getApplicationContext(), mensagens[1], Toast.LENGTH_SHORT);
-                    toast.show();
+                    mensagem.msg_toast(getApplicationContext(), mensagens[1]);
 
                 } else {
                     String erro;

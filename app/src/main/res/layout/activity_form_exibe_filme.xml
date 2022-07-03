@@ -117,10 +117,12 @@
 
     <TextView
         android:id="@+id/txt_exibe_sinopse"
-        android:layout_width="240dp"
-        android:layout_height="120dp"
+        android:layout_width="242dp"
+        android:layout_height="259dp"
         android:layout_marginTop="8dp"
+        android:inputType="textMultiLine"
         android:minLines="6"
+        android:scrollbars="vertical"
         android:text="Sinopse"
         android:textAlignment="viewStart"
         android:textSize="12dp"
@@ -129,14 +131,14 @@
         app:layout_constraintTop_toBottomOf="@+id/txt_exibe_elenco" />
 
     <TextView
-        android:id="@+id/txt_exibe_nota"
+        android:id="@+id/txt_exibe_avaliacao_editor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Nota"
+        android:text="Avaliação"
         android:textSize="11dp"
-        app:layout_constraintStart_toStartOf="@+id/txt_exibe_temporadas"
-        app:layout_constraintTop_toBottomOf="@+id/txt_exibe_temporadas" />
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_exibe_filme_voltar"
@@ -146,5 +148,27 @@
         app:layout_constraintBottom_toBottomOf="@+id/containerComponentsExibeFilme"
         app:layout_constraintEnd_toEndOf="@+id/containerComponentsExibeFilme"
         app:layout_constraintStart_toStartOf="@+id/containerComponentsExibeFilme" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/avaliacao_editor"
+        android:textSize="9dp"
+        app:layout_constraintStart_toStartOf="@+id/txt_exibe_temporadas"
+        app:layout_constraintTop_toTopOf="@+id/txt_exibe_sinopse" />
+
+    <RatingBar
+        android:id="@+id/ratingBarEditor"
+        style="?ratingBarStyleSmall"
+        android:layout_width="79dp"
+        android:layout_height="16dp"
+        android:numStars="5"
+        android:progressBackgroundTint="@color/black"
+        android:progressTint="@color/teal_700"
+        android:rating="5"
+        android:secondaryProgressTint="@color/black"
+        app:layout_constraintStart_toStartOf="@+id/txt_exibe_avaliacao_editor"
+        app:layout_constraintTop_toBottomOf="@+id/txt_exibe_avaliacao_editor" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

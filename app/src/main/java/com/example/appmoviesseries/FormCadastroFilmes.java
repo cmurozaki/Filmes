@@ -63,7 +63,7 @@ public class FormCadastroFilmes extends AppCompatActivity {
     TextView edt_temporadas;
     TextView edt_sinopse;
     Spinner spinner_generos;
-    Spinner spinner_notas;
+    Spinner spinner_avaliacao_editor;
     Button btn_gravar;
     Button btn_voltar;
     Button btn_imagem;
@@ -73,6 +73,9 @@ public class FormCadastroFilmes extends AppCompatActivity {
     String usuarioID;
     StorageReference imgRef;
     ProgressBar progressBar;
+
+    /* Exibição de mensagens */
+    Filmes mensagem = new Filmes();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,8 +95,8 @@ public class FormCadastroFilmes extends AppCompatActivity {
         ArrayAdapter adapter_generos = ArrayAdapter.createFromResource(this, R.array.array_generos, android.R.layout.simple_spinner_dropdown_item);
         spinner_generos.setAdapter(adapter_generos);
 
-        ArrayAdapter adapter_notas = ArrayAdapter.createFromResource(this, R.array.array_notas, android.R.layout.simple_spinner_dropdown_item);
-        spinner_notas.setAdapter(adapter_notas);
+        ArrayAdapter adapter_notas = ArrayAdapter.createFromResource(this, R.array.array_avaliacao_editor, android.R.layout.simple_spinner_dropdown_item);
+        spinner_avaliacao_editor.setAdapter(adapter_notas);
         /* Combo box (Spinner) */
 
         /* Digitação somente em caixa alta*/
@@ -135,8 +138,7 @@ public class FormCadastroFilmes extends AppCompatActivity {
         /* Caso tenha selecionado uma imagem, verfica a url */
         if (!imagemSelecionada) {
 
-            Toast toast = Toast.makeText(getApplicationContext(), "Selecione uma imagem", Toast.LENGTH_SHORT);
-            toast.show();
+            mensagem.msg_toast(getApplicationContext(), "Selecione uma imagem");
 
         } else {
 
@@ -159,14 +161,13 @@ public class FormCadastroFilmes extends AppCompatActivity {
             movie.setDirecao(edt_direcao.getText().toString());
             movie.setElenco(edt_elenco.getText().toString());
             movie.setSinopse(edt_sinopse.getText().toString());
-            movie.setNota(spinner_notas.getSelectedItem().toString());
+            movie.setNota(spinner_avaliacao_editor.getSelectedItem().toString());
             movie.setFilme_serie(filme_serie);
             movie.setUrlImagem(urlImagem);
 
             databaseReference.child("Filmes").child(movie.getUserId()).setValue(movie);
 
-            Toast toast = Toast.makeText(getApplicationContext(), "Filme/Série cadastrado com sucesso.", Toast.LENGTH_SHORT);
-            toast.show();
+            mensagem.msg_toast(getApplicationContext(), "Filme/Série cadastrado com sucesso");
 
             /* Barra de PROGRESSO */
             progressBar.setVisibility(View.VISIBLE);new Handler().postDelayed(new Runnable() {
@@ -221,7 +222,7 @@ public class FormCadastroFilmes extends AppCompatActivity {
             String titulo_portugues = edt_titulo_portugues.getText().toString();
             String titulo_original = edt_titulo_original.getText().toString();
             String genero = spinner_generos.getSelectedItem().toString();
-            String nota = spinner_notas.getSelectedItem().toString();
+            String nota = spinner_avaliacao_editor.getSelectedItem().toString();
             String producao = edt_producao.getText().toString();
             String direcao = edt_direcao.getText().toString();
             String elenco = edt_elenco.getText().toString();
@@ -262,12 +263,12 @@ public class FormCadastroFilmes extends AppCompatActivity {
                     });
             /* Campos validados, gravar os dados no firebase. */
 
-            Toast toast = Toast.makeText(getApplicationContext(), "Filme/Série cadastrado com sucesso.", Toast.LENGTH_SHORT);
-            toast.show();
+            mensagem.msg_toast(getApplicationContext(), "Filme/Série cadastrado com sucesso");
 
         } else {
-            Toast toast = Toast.makeText(getApplicationContext(), "Dados inconsistentes", Toast.LENGTH_SHORT);
-            toast.show();
+
+            mensagem.msg_toast(getApplicationContext(), "Dados inconsistentes");
+
         }
     }
 
@@ -382,7 +383,7 @@ public class FormCadastroFilmes extends AppCompatActivity {
         String titulo_portugues = edt_titulo_portugues.getText().toString();
         String titulo_original = edt_titulo_original.getText().toString();
         String genero = spinner_generos.getSelectedItem().toString();
-        String nota = spinner_notas.getSelectedItem().toString();
+        String nota = spinner_avaliacao_editor.getSelectedItem().toString();
         String producao = edt_producao.getText().toString();
         String direcao = edt_direcao.getText().toString();
         String elenco = edt_elenco.getText().toString();
@@ -467,8 +468,9 @@ public class FormCadastroFilmes extends AppCompatActivity {
 
         /* Caso tenha alguma inconsistência exebe mensagem ao usuário */
         if (!result) {
-            Toast toast = Toast.makeText(getApplicationContext(), strErro, Toast.LENGTH_SHORT);
-            toast.show();
+
+            mensagem.msg_toast(getApplicationContext(), strErro);
+
         }
 
         return result;
@@ -512,7 +514,7 @@ public class FormCadastroFilmes extends AppCompatActivity {
         edt_temporadas = findViewById(R.id.edt_temporadas);
         edt_sinopse = findViewById(R.id.edt_sinopse);
         spinner_generos = findViewById(R.id.spinner_generos);
-        spinner_notas = findViewById(R.id.spinner_notas);
+        spinner_avaliacao_editor = findViewById(R.id.spinner_notas);
         btn_voltar = findViewById(R.id.btn_cadastro_filmes_voltar);
         btn_gravar = findViewById(R.id.btn_cadastro_filmes_cadastrar);
         btn_imagem = findViewById(R.id.btn_cadastro_filmes_upload_imagem);

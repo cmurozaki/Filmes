@@ -1,12 +1,15 @@
 package com.example.appmoviesseries;
 
+import android.content.Context;
+import android.widget.Toast;
+
 public class Filmes extends Movies {
 
     private String userId;
     private String titulo_portugues;
     private String titulo_original;
     private String genero;
-    private String nota;
+    private String avalicao_editor;
     private String producao;
     private String direcao;
     private String elenco;
@@ -86,12 +89,12 @@ public class Filmes extends Movies {
 
     @Override
     public String getNota() {
-        return nota;
+        return avalicao_editor;
     }
 
     @Override
     public void setNota(String nota) {
-        this.nota = nota;
+        this.avalicao_editor = nota;
     }
 
     @Override
@@ -137,6 +140,11 @@ public class Filmes extends Movies {
 
     public Filmes () {
 
+    }
+
+    public void msg_toast(Context context, String mensagem) {
+        Toast toast = Toast.makeText(context, mensagem, Toast.LENGTH_SHORT);
+        toast.show();
     }
 
 

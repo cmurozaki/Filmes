@@ -130,7 +130,7 @@
         />
 
     <Spinner
-        android:id="@+id/spinner_notas"
+        android:id="@+id/spinner_avaliacao_editor"
         style="@style/Edit_Text_Form_Cadastro_Filmes"
         android:layout_width="match_parent"
         android:layout_height="35dp"
@@ -146,7 +146,7 @@
         android:layout_marginStart="20dp"
         android:textSize="9dp"
         app:layout_constraintStart_toStartOf="@id/containerComponentsCadFilmes"
-        app:layout_constraintTop_toBottomOf="@id/spinner_notas"
+        app:layout_constraintTop_toBottomOf="@id/spinner_avaliacao_editor"
         />
 
     <TextView

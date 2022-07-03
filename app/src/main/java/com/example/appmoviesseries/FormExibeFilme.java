@@ -104,6 +104,8 @@ public class FormExibeFilme extends AppCompatActivity {
         String sinopse = "";
         String urlImagem = "";
 
+        float numStar = 1;
+
         if (lista.get(0) != null) {
             tituloPortugues = lista.get(0).toString();
         }
@@ -159,7 +161,11 @@ public class FormExibeFilme extends AppCompatActivity {
         txt_genero.setText(genero);
         txt_filme_serie.setText(filme_serie);
 
-        retornaRaiting(avaliacao_editor);
+        Filmes rating = new Filmes();
+        numStar = rating.retornaRaiting(avaliacao_editor);
+        ratingBarEditor.setRating(numStar);
+
+        // retornaRaiting(avaliacao_editor);
 
         /* Imagem */
         Picasso.get()

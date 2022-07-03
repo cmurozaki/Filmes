@@ -58,7 +58,7 @@ public class Movies<setter> {
         this.genero = genero;
     }
 
-    public String getNota() {
+    public String getAvaliacao_editor() {
         return avaliacao_editor;
     }
 

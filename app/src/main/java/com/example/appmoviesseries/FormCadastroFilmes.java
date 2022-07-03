@@ -22,6 +22,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -70,6 +71,8 @@ public class FormCadastroFilmes extends AppCompatActivity {
     Uri selecionadoUri;
     ImageView img_filme;
     RadioGroup radioGroup;
+    RadioButton radioBtnFilme;
+    RadioButton radioBtnSerie;
     String usuarioID;
     StorageReference imgRef;
     ProgressBar progressBar;
@@ -95,8 +98,8 @@ public class FormCadastroFilmes extends AppCompatActivity {
         ArrayAdapter adapter_generos = ArrayAdapter.createFromResource(this, R.array.array_generos, android.R.layout.simple_spinner_dropdown_item);
         spinner_generos.setAdapter(adapter_generos);
 
-        ArrayAdapter adapter_notas = ArrayAdapter.createFromResource(this, R.array.array_avaliacao_editor, android.R.layout.simple_spinner_dropdown_item);
-        spinner_avaliacao_editor.setAdapter(adapter_notas);
+        ArrayAdapter adapter_avaliacao_editor = ArrayAdapter.createFromResource(this, R.array.array_avaliacao_editor, android.R.layout.simple_spinner_dropdown_item);
+        spinner_avaliacao_editor.setAdapter(adapter_avaliacao_editor);
         /* Combo box (Spinner) */
 
         /* Digitação somente em caixa alta*/
@@ -146,8 +149,7 @@ public class FormCadastroFilmes extends AppCompatActivity {
 
             /* Identifica se foi selecionado FILME ou SÉRIE */
             String filme_serie;
-            int itemRadioGroupSelecionado = radioGroup.getCheckedRadioButtonId();
-            if (itemRadioGroupSelecionado == 0) {
+            if (radioBtnFilme.isChecked()) {
                 filme_serie = "Filme";
             } else {
                 filme_serie = "Série";
@@ -162,6 +164,7 @@ public class FormCadastroFilmes extends AppCompatActivity {
             movie.setElenco(edt_elenco.getText().toString());
             movie.setSinopse(edt_sinopse.getText().toString());
             movie.setNota(spinner_avaliacao_editor.getSelectedItem().toString());
+            movie.setTemporadas(edt_temporadas.getText().toString());
             movie.setFilme_serie(filme_serie);
             movie.setUrlImagem(urlImagem);
 
@@ -245,7 +248,8 @@ public class FormCadastroFilmes extends AppCompatActivity {
             String userId = FirebaseAuth.getInstance().getUid();
 
             /* Criado objeto 'movies' para adicionar os valores na collection 'filmes' */
-            Movies movies = new Movies(userId, titulo_portugues, titulo_original, genero, nota, producao, direcao, elenco, temporadas, sinopse, urlImagem);
+            Movies movies = new Movies(userId, titulo_portugues, titulo_original, genero, nota,
+                    producao, direcao, elenco, temporadas, sinopse, urlImagem);
 
             FirebaseFirestore.getInstance().collection("filmes")
                     .add(movies)
@@ -514,12 +518,14 @@ public class FormCadastroFilmes extends AppCompatActivity {
         edt_temporadas = findViewById(R.id.edt_temporadas);
         edt_sinopse = findViewById(R.id.edt_sinopse);
         spinner_generos = findViewById(R.id.spinner_generos);
-        spinner_avaliacao_editor = findViewById(R.id.spinner_notas);
+        spinner_avaliacao_editor = findViewById(R.id.spinner_avaliacao_editor);
         btn_voltar = findViewById(R.id.btn_cadastro_filmes_voltar);
         btn_gravar = findViewById(R.id.btn_cadastro_filmes_cadastrar);
         btn_imagem = findViewById(R.id.btn_cadastro_filmes_upload_imagem);
         img_filme = findViewById(R.id.img_filme);
         radioGroup = findViewById(R.id.radioGroupFilmeSerie);
+        radioBtnFilme = findViewById(R.id.radioBtnFilme);
+        radioBtnSerie = findViewById(R.id.radioBtnSerie);
         progressBar = findViewById(R.id.progressbar_cadastro_filme);
         btn_gravar.setEnabled(false);
     }

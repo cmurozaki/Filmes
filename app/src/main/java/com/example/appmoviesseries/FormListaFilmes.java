@@ -15,6 +15,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.NumberPicker;
+import android.widget.RatingBar;
 import android.widget.SearchView;
 import android.widget.TextView;
 
@@ -44,8 +46,11 @@ public class FormListaFilmes extends AppCompatActivity {
     private ArrayAdapter<Movies> moviesArrayAdapter;
 
     private GroupAdapter adapter;
+    private RecyclerView recyclerView;
 
     private String ordenarPor;
+
+    private RatingBar ratingBarListaFilmes;
 
     FirebaseDatabase firebase;
     DatabaseReference databaseReference;
@@ -54,6 +59,13 @@ public class FormListaFilmes extends AppCompatActivity {
 
     /* Exibição de mensagens */
     Filmes mensagem = new Filmes();
+
+    private String[] avaliacao = {
+            "Excepcional",
+            "Ótimo",
+            "Bom",
+            "Regular",
+            "Fraco" };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +105,7 @@ public class FormListaFilmes extends AppCompatActivity {
                 nomes_campos.add(filmeSelecionado.movie.getTitulo_original());      // 1
                 nomes_campos.add(filmeSelecionado.movie.getDirecao());              // 2
                 nomes_campos.add(filmeSelecionado.movie.getProducao());             // 3
-                nomes_campos.add(filmeSelecionado.movie.getNota());                 // 4
+                nomes_campos.add(filmeSelecionado.movie.getAvaliacao_editor());     // 4
                 nomes_campos.add(filmeSelecionado.movie.getElenco());               // 5
                 nomes_campos.add(filmeSelecionado.movie.getSinopse());              // 6
                 nomes_campos.add(filmeSelecionado.movie.getTemporadas());           // 7
@@ -130,7 +142,7 @@ public class FormListaFilmes extends AppCompatActivity {
         /* Pesquisar Filmes */
         MenuItem pesquisar = menu.findItem(R.id.menu_busca);
         SearchView edt_pesquisar = (SearchView) pesquisar.getActionView();
-        edt_pesquisar.setQueryHint("Informe a PRIMEIRA letra para busca");
+        edt_pesquisar.setQueryHint("Título em Português");
         edt_pesquisar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -139,11 +151,14 @@ public class FormListaFilmes extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                pesquisaFilmes(newText.toUpperCase().trim());
+                /*
                 if (newText.length()==1) {
                     pesquisaFilmes(newText.toUpperCase());
                 } else {
                     mensagem.msg_toast(getApplicationContext(), "Busca pela PRIMEIRA letra");
                 }
+                */
                 return true;
             }
         });
@@ -219,6 +234,33 @@ public class FormListaFilmes extends AppCompatActivity {
 
 
     private void pesquisaFilmes(String newText) {
+        Query query;
+        if (newText.equals("")) {
+            query = databaseReference.orderByChild("titulo_portugues");     /* dataReference já está definido o child = Filmes */
+        } else {
+            query = databaseReference.orderByChild("titulo_portugues")
+                    .startAt(newText)
+                    .endAt(newText+"\uf8ff");
+        }
+
+        adapter.clear();
+
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot:snapshot.getChildren()) {
+                    Filmes filme = dataSnapshot.getValue(Filmes.class);
+                    query.addListenerForSingleValueEvent(valueEventListener);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        /*
         moviesList.clear();
         Query query = databaseReference.orderByChild("titulo_portugues")
                 .startAt(newText)
@@ -226,6 +268,7 @@ public class FormListaFilmes extends AppCompatActivity {
 
         query.addListenerForSingleValueEvent(valueEventListener);
         adapter.clear();
+        */
     }
 
     /*
@@ -268,6 +311,9 @@ public class FormListaFilmes extends AppCompatActivity {
             TextView txtTituloPortugues = viewHolder.itemView.findViewById(R.id.txt_titulo_portugues);
             TextView txtGenero = viewHolder.itemView.findViewById(R.id.txt_genero);
             ImageView imgFilme = viewHolder.itemView.findViewById(R.id.imageView);
+            RatingBar ratingBar = viewHolder.itemView.findViewById(R.id.ratingBarListaFilmes);
+
+            float numStar = 1;
 
             /* Textos */
             txtTituloPortugues.setText(movie.getTitulo_portugues());
@@ -277,6 +323,17 @@ public class FormListaFilmes extends AppCompatActivity {
             Picasso.get()
                     .load(movie.getUrlImagem())
                     .into(imgFilme);
+
+
+            /* RatingBar - Avaliação do Editor */
+            String avaliacao_editor;
+            avaliacao_editor = movie.getAvaliacao_editor();
+
+            Filmes rating = new Filmes();
+
+            numStar = rating.retornaRaiting(avaliacao_editor);
+            ratingBar.setRating(numStar);
+            /* RatingBar - Avaliação do Editor */
 
         }
 
@@ -300,6 +357,8 @@ public class FormListaFilmes extends AppCompatActivity {
 
     private void InicializarComponentes() {
         btnVoltar = findViewById(R.id.btn_lista_filmes_voltar);
+        recyclerView = findViewById(R.id.recycler);
+        ratingBarListaFilmes = findViewById(R.id.ratingBarListaFilmes);
     }
 
- }
+}

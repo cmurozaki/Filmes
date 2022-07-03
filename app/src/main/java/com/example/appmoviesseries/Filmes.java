@@ -9,7 +9,7 @@ public class Filmes extends Movies {
     private String titulo_portugues;
     private String titulo_original;
     private String genero;
-    private String avalicao_editor;
+    private String avaliacao_editor;
     private String producao;
     private String direcao;
     private String elenco;
@@ -25,6 +25,13 @@ public class Filmes extends Movies {
     public void setFilme_serie(String filme_serie) {
         this.filme_serie = filme_serie;
     }
+
+    private String[] avaliacao = {
+            "Excepcional",
+            "Ótimo",
+            "Bom",
+            "Regular",
+            "Fraco" };
 
     @Override
     public String getUrlImagem() {
@@ -88,13 +95,13 @@ public class Filmes extends Movies {
     }
 
     @Override
-    public String getNota() {
-        return avalicao_editor;
+    public String getAvaliacao_editor() {
+        return avaliacao_editor;
     }
 
     @Override
     public void setNota(String nota) {
-        this.avalicao_editor = nota;
+        this.avaliacao_editor = nota;
     }
 
     @Override
@@ -147,5 +154,24 @@ public class Filmes extends Movies {
         toast.show();
     }
 
+    public float retornaRaiting(String aval) {
+
+        float numStar = 1;
+
+        if (aval.equals(avaliacao[0])) {
+            numStar = 5;
+        } else if (aval.equals(avaliacao[1])) {
+            numStar = 4;
+        } else if (aval.equals(avaliacao[2])) {
+            numStar = 3;
+        } else if (aval.equals(avaliacao[3])) {
+            numStar = 2;
+        } else if (aval.equals(avaliacao[4])) {
+            numStar = 1;
+        }
+
+        return numStar;
+
+    }
 
 }

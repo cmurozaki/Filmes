@@ -42,4 +42,18 @@
         app:layout_constraintStart_toStartOf="@+id/txt_titulo_portugues"
         app:layout_constraintTop_toBottomOf="@+id/txt_titulo_portugues" />
 
+    <RatingBar
+        android:id="@+id/ratingBarListaFilmes"
+        style="?ratingBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:numStars="5"
+        android:progressBackgroundTint="@color/black"
+        android:progressTint="@color/teal_700"
+        android:rating="5"
+        android:secondaryProgressTint="@color/black"
+        app:layout_constraintStart_toStartOf="@+id/txt_genero"
+        app:layout_constraintTop_toBottomOf="@+id/txt_genero" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

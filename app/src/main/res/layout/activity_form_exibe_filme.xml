@@ -31,6 +31,7 @@
         android:layout_height="18dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:maxLines="2"
         android:text="TÍTULO EM PORTUGUÊS"
         android:textColor="@color/purple_500"
         android:textSize="12dp"
@@ -118,14 +119,14 @@
     <TextView
         android:id="@+id/txt_exibe_sinopse"
         android:layout_width="242dp"
-        android:layout_height="259dp"
+        android:layout_height="330dp"
         android:layout_marginTop="8dp"
         android:inputType="textMultiLine"
-        android:minLines="6"
-        android:scrollbars="vertical"
+        android:maxLines="30"
         android:text="Sinopse"
         android:textAlignment="viewStart"
-        android:textSize="12dp"
+        android:textSize="14dp"
+        android:autoSizeTextType="none"
         app:layout_constraintEnd_toEndOf="@+id/txt_exibe_elenco"
         app:layout_constraintStart_toStartOf="@+id/txt_exibe_elenco"
         app:layout_constraintTop_toBottomOf="@+id/txt_exibe_elenco" />
@@ -135,10 +136,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Avaliação"
-        android:textSize="11dp"
+        android:textSize="1dp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="@+id/ratingBarEditor"
+        app:layout_constraintTop_toBottomOf="@+id/ratingBarEditor" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_exibe_filme_voltar"
@@ -168,7 +170,7 @@
         android:progressTint="@color/teal_700"
         android:rating="5"
         android:secondaryProgressTint="@color/black"
-        app:layout_constraintStart_toStartOf="@+id/txt_exibe_avaliacao_editor"
-        app:layout_constraintTop_toBottomOf="@+id/txt_exibe_avaliacao_editor" />
+        app:layout_constraintStart_toStartOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

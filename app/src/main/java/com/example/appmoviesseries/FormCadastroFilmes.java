@@ -51,6 +51,7 @@ public class FormCadastroFilmes extends AppCompatActivity {
 
     private StorageReference mStorageRef;
     private Boolean imagemSelecionada = false;
+    private Boolean blnResult;
     private String urlImagem = "";
 
     FirebaseDatabase firebase;
@@ -141,6 +142,29 @@ public class FormCadastroFilmes extends AppCompatActivity {
         /* Caso tenha selecionado uma imagem, verfica a url */
         if (!imagemSelecionada) {
 
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("SEM IMAGEM");
+            builder.setMessage(R.string.grava_sem_imagem);
+            builder.setPositiveButton("SIM", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    imagemSelecionada = true;
+                }
+            });
+            builder.setNegativeButton("NÃO", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    return;
+                }
+            });
+
+            AlertDialog alerta = builder.create();
+            alerta.show();
+
+        }
+
+        if (!imagemSelecionada) {
+
             mensagem.msg_toast(getApplicationContext(), "Selecione uma imagem");
 
         } else {
@@ -182,6 +206,7 @@ public class FormCadastroFilmes extends AppCompatActivity {
 
     }
 
+
     /* Inicializa o banco de dados */
     private void InicializarFirebase() {
 
@@ -194,6 +219,7 @@ public class FormCadastroFilmes extends AppCompatActivity {
     }
 
     private void VoltarTela() {
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Alerta");
         builder.setMessage(R.string.confirma_voltar);
@@ -213,6 +239,7 @@ public class FormCadastroFilmes extends AppCompatActivity {
         });
         AlertDialog alerta = builder.create();
         alerta.show();
+
     }
 
 
@@ -381,6 +408,9 @@ public class FormCadastroFilmes extends AppCompatActivity {
     /* Validação do campos */
     private boolean validaCampo() {
 
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        Boolean validaCampos = false;
         Boolean result;
         String strErro = null;
 
@@ -395,7 +425,7 @@ public class FormCadastroFilmes extends AppCompatActivity {
         String sinopse = edt_sinopse.getText().toString();
 
         /* Verifica se o título em português foi preenchido */
-        if (titulo_portugues.isEmpty()) {
+        if (validaCampos && titulo_portugues.isEmpty()) {
             /* Título em português em branco */
             strErro = "Preencher TÍTULO EM PORTUGUÊS";
             result = false;
@@ -404,35 +434,35 @@ public class FormCadastroFilmes extends AppCompatActivity {
         }
 
         /* Verifica se o título original foi preenchido */
-        if (result && titulo_original.isEmpty()) {
+        if (validaCampos && result && titulo_original.isEmpty()) {
             /* Título original em branco */
             strErro = "Preencher TÍTULO ORIGINAL";
             result = false;
         }
 
         /* Verifica se o gênero foi escolhido */
-        if (result && genero.isEmpty()) {
+        if (validaCampos && result && genero.isEmpty()) {
             /* Gênero em branco */
             strErro = "Escolher um GÊNERO";
             result = false;
         }
 
         /* Verifica se a produção foi preenchida */
-        if (result && producao.isEmpty()) {
+        if (validaCampos && result && producao.isEmpty()) {
             /* Produção em branco */
             strErro = "Preencher a PRODUÇÃO";
             result = false;
         }
 
         /* Verifica se a direção foi preenchida */
-        if (result && direcao.isEmpty()) {
+        if (validaCampos && result && direcao.isEmpty()) {
             /* Produção em branco */
             strErro = "Preencher a DIREÇÃO";
             result = false;
         }
 
         /* Verifica se o elenco foi preenchido */
-        if (result && elenco.isEmpty()) {
+        if (validaCampos && result && elenco.isEmpty()) {
             /* Elenco em branco */
             strErro = "Preencher o ELENCO";
             result = false;
@@ -457,17 +487,36 @@ public class FormCadastroFilmes extends AppCompatActivity {
         }
 
         /* Verifica se a sinopse foi preenchida */
-        if (result && sinopse.isEmpty()) {
+        if (validaCampos && result && sinopse.isEmpty()) {
             /* Sinopse em branco */
             strErro = "Preencher a SINOPSE";
             result = false;
         }
 
         /* Verifica se a nota foi preenchida */
-        if (result && nota.isEmpty()) {
+        if (validaCampos && result && nota.isEmpty()) {
             /* Nota em branco */
             strErro = "Preencher a NOTA DE AVALIAÇÃO";
             result = false;
+        }
+
+        if (!imagemSelecionada) {
+            builder.setTitle("Sem Imagem");
+            builder.setMessage(R.string.grava_sem_imagem);
+            builder.setPositiveButton("SIM", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    imagemSelecionada = true;
+                }
+            });
+            builder.setNegativeButton("NÃO", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    imagemSelecionada = false;
+                }
+            });
+            AlertDialog alerta = builder.create();
+            alerta.show();
         }
 
         /* Caso tenha alguma inconsistência exebe mensagem ao usuário */
@@ -527,7 +576,7 @@ public class FormCadastroFilmes extends AppCompatActivity {
         radioBtnFilme = findViewById(R.id.radioBtnFilme);
         radioBtnSerie = findViewById(R.id.radioBtnSerie);
         progressBar = findViewById(R.id.progressbar_cadastro_filme);
-        btn_gravar.setEnabled(false);
+        // btn_gravar.setEnabled(false);
     }
 
 

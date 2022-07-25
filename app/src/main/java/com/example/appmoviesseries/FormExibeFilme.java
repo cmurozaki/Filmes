@@ -1,24 +1,38 @@
 package com.example.appmoviesseries;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.RadioGroup;
 import android.widget.RatingBar;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class FormExibeFilme extends AppCompatActivity {
+
+    private Switch btnAssistido;
+    private String usuarioID;
+    private String movieId;
+    private Float numStars;
 
     TextView txt_titulo_portugues;
     TextView tzt_titulo_original;
@@ -32,15 +46,17 @@ public class FormExibeFilme extends AppCompatActivity {
     TextView txt_filme_serie;
     ImageView img_filme;
     RatingBar ratingBarEditor;
+    RatingBar ratingBarUsuario;
 
     Button btnVoltar;
+    Button btnEditar;
 
-    private String[] avaliacao = {
-            "Excepcional",
-            "Ótimo",
-            "Bom",
-            "Regular",
-            "Fraco" };
+    /* Exibição de mensagens */
+    Filmes mensagem = new Filmes();
+    Filmes avaliacaoUsuario = new Filmes();
+
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,13 +69,98 @@ public class FormExibeFilme extends AppCompatActivity {
 
         recebeDados();
 
+        InicializaFirebase();
+
+        /* Switch ASSISTIDO */
+        btnAssistido.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    ratingBarUsuario.setVisibility(View.VISIBLE);
+                    atualizaAssistido(isChecked);
+                } else {
+                    ratingBarUsuario.setVisibility(View.INVISIBLE);
+                    atualizaAssistido(isChecked);
+                }
+            }
+        });
+
         /* Botão VOLTAR */
         btnVoltar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                atualizaAssistido(btnAssistido.isChecked());
                 Intent intent = new Intent(FormExibeFilme.this, FormListaFilmes.class);
                 startActivity(intent);
                 finish();
+            }
+        });
+
+    }
+
+    /* Atualiza ASSISTIDOS */
+    private void atualizaAssistido(boolean isChecked) {
+
+        // identificaRaitingUser();
+
+        String avaliacao;
+
+        Assistidos assistido = new Assistidos();
+
+        avaliacao = avaliacaoUsuario.raitingToDescription(ratingBarUsuario.getRating());
+
+        if (isChecked) {
+            assistido.setAssistido("S");
+        } else {
+            assistido.setAssistido("N");
+        }
+        assistido.setAvaliacao(avaliacao);
+        assistido.setTituloPortugues(txt_titulo_portugues.getText().toString());
+
+        databaseReference
+                .child("Assistidos")
+                .child(usuarioID)
+                .child(movieId)
+                .setValue(assistido);
+
+    }
+
+    /* Identifica a avaliação do usuário */
+    private void identificaRaitingUser() {
+
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference("Assistidos");
+
+        /* ID do usuário logado */
+        usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        DatabaseReference avaliacaoDesc = databaseReference
+                .child(usuarioID)
+                .child(movieId)
+                .child("avaliacao");
+
+        avaliacaoDesc.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                final String value;
+                try {
+                    value = snapshot.getValue().toString();
+                    // mensagem.msg_toast(getApplicationContext(), value);
+                    atualizaRaitingBar(value);
+                } catch(Exception e) {
+
+                }
+            }
+
+            private void atualizaRaitingBar(String value) {
+                Float numStar;
+                numStar = avaliacaoUsuario.retornaRaiting(value);
+                ratingBarUsuario.setRating(numStar);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
 
@@ -81,6 +182,11 @@ public class FormExibeFilme extends AppCompatActivity {
         btnVoltar = findViewById(R.id.btn_exibe_filme_voltar);
         img_filme = findViewById(R.id.img_exibe_filme);
         ratingBarEditor = findViewById(R.id.ratingBarEditor);
+        btnAssistido = findViewById(R.id.switchAssistido);
+        ratingBarUsuario = findViewById(R.id.ratingBarUsuario);
+        btnEditar = findViewById(R.id.btn_edita_filme);
+
+        ratingBarUsuario.setVisibility(View.INVISIBLE);
 
     }
 
@@ -150,6 +256,10 @@ public class FormExibeFilme extends AppCompatActivity {
             urlImagem = lista.get(10).toString();
         }
 
+        if (lista.get(11) != null) {
+            movieId = lista.get(11).toString();
+        }
+
         txt_titulo_portugues.setText(tituloPortugues);
         tzt_titulo_original.setText(tituloOriginal);
         txt_direcao.setText(direcao);
@@ -165,28 +275,81 @@ public class FormExibeFilme extends AppCompatActivity {
         numStar = rating.retornaRaiting(avaliacao_editor);
         ratingBarEditor.setRating(numStar);
 
-        // retornaRaiting(avaliacao_editor);
-
         /* Imagem */
-        Picasso.get()
-                .load(urlImagem)
-                .into(img_filme);
+        if (urlImagem != null && !urlImagem.isEmpty() ) {
+            Picasso.get()
+                    .load(urlImagem)
+                    .into(img_filme);
+        }
+
+        identificaRaitingUser();
 
     }
 
-    private void retornaRaiting(String aval) {
+    private void InicializaFirebase() {
 
-        if (aval.equals(avaliacao[0])) {
-            ratingBarEditor.setRating(5);
-        } else if (aval.equals(avaliacao[1])) {
-            ratingBarEditor.setRating(4);
-        } else if (aval.equals(avaliacao[2])) {
-            ratingBarEditor.setRating(3);
-        } else if (aval.equals(avaliacao[3])) {
-            ratingBarEditor.setRating(2);
-        } else if (aval.equals(avaliacao[4])) {
-            ratingBarEditor.setRating(1);
-        }
+        FirebaseApp.initializeApp(FormExibeFilme.this);
+
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference("Assistidos");
+
+        /* ID do usuário logado */
+        usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        /* Verifica se o usuário assistiu ou não o filme selecionado */
+        DatabaseReference filmeAssistido = databaseReference
+                .child(usuarioID)
+                .child(movieId)
+                .child("assistido");
+
+        filmeAssistido.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                final String filmeAssistido;
+                try {
+                    filmeAssistido = snapshot.getValue().toString();
+                    if (filmeAssistido.equals("N")) {
+                        btnAssistido.setChecked(false);
+                        ratingBarUsuario.setVisibility(View.INVISIBLE);
+                    } else {
+                        btnAssistido.setChecked(true);
+                        ratingBarUsuario.setVisibility(View.VISIBLE);
+                    }
+                } catch(Exception e) {
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+
+        });
+        /* Verifica se o usuário assistiu ou não o filme selecionado */
+
+        /* Verifica se o perfil do usuário é de ADM */
+        databaseReference = firebaseDatabase.getReference("Users");
+        DatabaseReference perfil_usuario = databaseReference
+                .child(usuarioID)
+                .child("perfil");
+        perfil_usuario.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                final String value;
+                value = snapshot.getValue().toString();
+                if (value.equals("adm")) {
+                    btnEditar.setVisibility(View.VISIBLE);
+                } else {
+                    btnEditar.setVisibility(View.INVISIBLE);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
     }
 

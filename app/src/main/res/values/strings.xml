@@ -22,6 +22,8 @@
     <string name="confirma_voltar">Deseja sair desta tela ?</string>
     <string name="busca_filme">Busca pela primeira letra</string>
     <string name="avaliacao_editor">Avaliação do Editor</string>
+    <string name="grava_sem_imagem">Confirma a gravação sem imagem?</string>
+    <string name="editar_filme">Editar</string>
     <string-array name="array_generos">
         <item>Animação</item>
         <item>Aventura</item>

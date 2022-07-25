@@ -10,15 +10,15 @@
     <View
         android:id="@+id/containerComponentsExibeFilme"
         style="@style/ContainerComponentsExibeFilme"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/img_exibe_filme"
-        android:layout_width="100dp"
-        android:layout_height="67dp"
+        android:layout_width="67dp"
+        android:layout_height="100dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="@+id/containerComponentsExibeFilme"
@@ -27,15 +27,18 @@
 
     <TextView
         android:id="@+id/txt_exibe_titulo_portugues"
-        android:layout_width="240dp"
-        android:layout_height="18dp"
-        android:layout_marginStart="8dp"
+        android:layout_width="242dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
+        android:layout_marginRight="4dp"
+        android:lines="2"
         android:maxLines="2"
-        android:text="TÍTULO EM PORTUGUÊS"
-        android:textColor="@color/purple_500"
+        android:text="TÍTULO EM PORTUGUÊS "
+        android:textColor="@android:color/holo_blue_dark"
         android:textSize="12dp"
         android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/containerComponentsExibeFilme"
         app:layout_constraintStart_toEndOf="@+id/img_exibe_filme"
         app:layout_constraintTop_toTopOf="@+id/containerComponentsExibeFilme" />
 
@@ -121,12 +124,12 @@
         android:layout_width="242dp"
         android:layout_height="330dp"
         android:layout_marginTop="8dp"
+        android:autoSizeTextType="none"
         android:inputType="textMultiLine"
         android:maxLines="30"
         android:text="Sinopse"
         android:textAlignment="viewStart"
         android:textSize="14dp"
-        android:autoSizeTextType="none"
         app:layout_constraintEnd_toEndOf="@+id/txt_exibe_elenco"
         app:layout_constraintStart_toStartOf="@+id/txt_exibe_elenco"
         app:layout_constraintTop_toBottomOf="@+id/txt_exibe_elenco" />
@@ -151,6 +154,15 @@
         app:layout_constraintEnd_toEndOf="@+id/containerComponentsExibeFilme"
         app:layout_constraintStart_toStartOf="@+id/containerComponentsExibeFilme" />
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_edita_filme"
+        style="@style/Button_Form_Cadastro_Filmes"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/editar_filme"
+        app:layout_constraintBottom_toBottomOf="@+id/containerComponentsExibeFilme"
+        app:layout_constraintStart_toEndOf="@+id/btn_exibe_filme_voltar" />
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
@@ -172,5 +184,32 @@
         android:secondaryProgressTint="@color/black"
         app:layout_constraintStart_toStartOf="@+id/textView"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <Switch
+        android:id="@+id/switchAssistido"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:text="Assistido"
+        android:textSize="10dp"
+        app:layout_constraintStart_toEndOf="@+id/btn_exibe_filme_voltar"
+        app:layout_constraintTop_toBottomOf="@+id/txt_exibe_sinopse" />
+
+    <RatingBar
+        android:id="@+id/ratingBarUsuario"
+        android:layout_width="237dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="54dp"
+        android:numStars="5"
+        android:scaleX=".4"
+        android:scaleY=".4"
+        android:stepSize="1"
+        android:transformPivotY="0dp"
+        app:layout_constraintEnd_toEndOf="@+id/containerComponentsExibeFilme"
+        app:layout_constraintStart_toEndOf="@+id/btn_exibe_filme_voltar"
+        app:layout_constraintTop_toBottomOf="@+id/txt_exibe_sinopse" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

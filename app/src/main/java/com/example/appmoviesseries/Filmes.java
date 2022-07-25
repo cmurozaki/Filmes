@@ -174,4 +174,26 @@ public class Filmes extends Movies {
 
     }
 
+    public String raitingToDescription(float stars) {
+
+        String description = "";
+
+        if (stars==1) {
+            description = avaliacao[4];
+        } else if (stars==2) {
+            description = avaliacao[3];
+        } else if (stars==3) {
+            description = avaliacao[2];
+        } else if (stars==4) {
+            description = avaliacao[1];
+        } else if (stars==5) {
+            description = avaliacao[0];
+        } else if (stars==0) {
+            description = "Sem Avaliação";
+        }
+
+        return description;
+
+    }
+
 }

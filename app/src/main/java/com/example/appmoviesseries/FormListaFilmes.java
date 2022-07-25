@@ -112,6 +112,7 @@ public class FormListaFilmes extends AppCompatActivity {
                 nomes_campos.add(filmeSelecionado.movie.getGenero());               // 8
                 nomes_campos.add(filmeSelecionado.movie.getFilme_serie());          // 9
                 nomes_campos.add(filmeSelecionado.movie.getUrlImagem());            // 10
+                nomes_campos.add(filmeSelecionado.movie.getUserId());               // 11
 
                 CarregaTelaExibeFilme( nomes_campos );
 
@@ -320,10 +321,11 @@ public class FormListaFilmes extends AppCompatActivity {
             txtGenero.setText(movie.getGenero());
 
             /* Imagem */
-            Picasso.get()
-                    .load(movie.getUrlImagem())
-                    .into(imgFilme);
-
+            if (movie.getUrlImagem() != null && !movie.getUrlImagem().isEmpty() ) {
+                Picasso.get()
+                        .load(movie.getUrlImagem())
+                        .into(imgFilme);
+            }
 
             /* RatingBar - Avaliação do Editor */
             String avaliacao_editor;

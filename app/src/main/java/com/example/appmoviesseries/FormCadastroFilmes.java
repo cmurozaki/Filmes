@@ -44,6 +44,7 @@ import com.google.firebase.storage.UploadTask;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -78,10 +79,12 @@ public class FormCadastroFilmes extends AppCompatActivity {
     StorageReference imgRef;
     ProgressBar progressBar;
 
+    String movieId;
+
     /* Exibição de mensagens */
     Filmes mensagem = new Filmes();
 
-    @Override
+@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form_cadastro_filmes);
@@ -102,6 +105,8 @@ public class FormCadastroFilmes extends AppCompatActivity {
         ArrayAdapter adapter_avaliacao_editor = ArrayAdapter.createFromResource(this, R.array.array_avaliacao_editor, android.R.layout.simple_spinner_dropdown_item);
         spinner_avaliacao_editor.setAdapter(adapter_avaliacao_editor);
         /* Combo box (Spinner) */
+
+        recebeDados();
 
         /* Digitação somente em caixa alta*/
         edt_titulo_portugues.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
@@ -179,7 +184,13 @@ public class FormCadastroFilmes extends AppCompatActivity {
                 filme_serie = "Série";
             }
 
-            movie.setUserId(UUID.randomUUID().toString());
+            if (movieId==null) {
+                /* Adiciona */
+                movie.setUserId(UUID.randomUUID().toString());
+            } else {
+                /* Atualiza */
+                movie.setUserId(movieId);
+            }
             movie.setTitulo_portugues(edt_titulo_portugues.getText().toString());
             movie.setTitulo_original(edt_titulo_original.getText().toString());
             movie.setGenero(spinner_generos.getSelectedItem().toString());
@@ -190,7 +201,9 @@ public class FormCadastroFilmes extends AppCompatActivity {
             movie.setNota(spinner_avaliacao_editor.getSelectedItem().toString());
             movie.setTemporadas(edt_temporadas.getText().toString());
             movie.setFilme_serie(filme_serie);
-            movie.setUrlImagem(urlImagem);
+            if (urlImagem != null) {
+                movie.setUrlImagem(urlImagem);
+            }
 
             databaseReference.child("Filmes").child(movie.getUserId()).setValue(movie);
 
@@ -272,7 +285,12 @@ public class FormCadastroFilmes extends AppCompatActivity {
             }, 3000 );
 
             /* Campos validados, gravar os dados no firebase. */
-            String userId = FirebaseAuth.getInstance().getUid();
+            String userId;
+            if (movieId==null) {
+                userId = FirebaseAuth.getInstance().getUid();
+            } else {
+                userId = movieId;
+            }
 
             /* Criado objeto 'movies' para adicionar os valores na collection 'filmes' */
             Movies movies = new Movies(userId, titulo_portugues, titulo_original, genero, nota,
@@ -579,5 +597,116 @@ public class FormCadastroFilmes extends AppCompatActivity {
         // btn_gravar.setEnabled(false);
     }
 
+    private void recebeDados() {
+
+        /* Recupera o parâmetro enviado pelo 'FormExibeFilme' */
+        Bundle bundle = getIntent().getExtras();
+
+        if (bundle==null) {
+            return;
+        }
+
+        List<String> lista = bundle.getStringArrayList("atualiza_filme");
+
+        if (lista.get(0) != null) {
+            edt_titulo_portugues.setText(lista.get(0));
+        }
+
+        if (lista.get(1) != null) {
+            edt_titulo_original.setText(lista.get(1));
+        }
+
+        if (lista.get(2) != null) {
+            edt_direcao.setText(lista.get(2));
+        }
+
+        if (lista.get(3) != null) {
+            edt_producao.setText(lista.get(3));
+        }
+
+        if (lista.get(4) != null) {
+            spinner_avaliacao_editor.setSelection(identificaIdAvaliacaoEditor(lista.get(4)));
+        }
+
+        if (lista.get(5) != null) {
+            edt_elenco.setText(lista.get(5));
+        }
+
+        if (lista.get(6) != null) {
+            edt_sinopse.setText(lista.get(6));
+        }
+
+        if (lista.get(7) != null) {
+            edt_temporadas.setText(lista.get(7));
+        }
+
+        /* GÊNERO */
+        if (lista.get(8) != null) {
+            spinner_generos.setSelection(identificaIdGenero(lista.get(8)));
+        }
+
+        if (lista.get(9) != null) {
+            if (lista.get(9).equals("Filme")) {
+                radioBtnFilme.setChecked(true);
+            } else {
+                radioBtnSerie.setChecked(true);
+            }
+        }
+
+        if (lista.get(10) != null) {
+            urlImagem = lista.get(10);
+        }
+
+        if (lista.get(11) != null) {
+            movieId = lista.get(11);
+        }
+
+    }
+
+    private int identificaIdAvaliacaoEditor(String avaliacao) {
+
+        int numRetorno = 0;
+
+        if (avaliacao.equals(getResources().getString(R.string.aval_excepcional))) {
+            numRetorno = 0;
+        } else if (avaliacao.equals(getResources().getString(R.string.aval_otimo))) {
+            numRetorno = 1;
+        } else if (avaliacao.equals(getResources().getString(R.string.aval_bom))) {
+            numRetorno = 2;
+        } else if (avaliacao.equals(getResources().getString(R.string.aval_regular))) {
+            numRetorno = 3;
+        }else if (avaliacao.equals(getResources().getString(R.string.aval_fraco))) {
+            numRetorno = 4;
+        }
+
+        return numRetorno;
+
+    }
+
+    private int identificaIdGenero(String genero) {
+
+        int numRetorno = 0;
+
+        if (genero.equals(getResources().getString(R.string.gen_animacao))) {
+            numRetorno = 0;
+        } else if (genero.equals(getResources().getString(R.string.gen_aventura))) {
+            numRetorno = 1;
+        } else if (genero.equals(getResources().getString(R.string.gen_comedia))) {
+            numRetorno = 2;
+        } else if (genero.equals(getResources().getString(R.string.gen_drama))) {
+            numRetorno = 3;
+        } else if (genero.equals(getResources().getString(R.string.gen_ficcao))) {
+            numRetorno = 4;
+        } else if (genero.equals(getResources().getString(R.string.gen_policial))) {
+            numRetorno = 5;
+        } else if (genero.equals(getResources().getString(R.string.gen_suspense))) {
+            numRetorno = 6;
+        } else if (genero.equals(getResources().getString(R.string.gen_terror))) {
+            numRetorno = 7;
+        }
+
+        return numRetorno;
+
+    }
 
 }

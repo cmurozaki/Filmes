@@ -119,7 +119,7 @@
         app:layout_constraintStart_toStartOf="@+id/containerComponentsExibeFilme"
         app:layout_constraintTop_toBottomOf="@+id/txt_exibe_filme_serie" />
 
-    <TextView
+    <EditText
         android:id="@+id/txt_exibe_sinopse"
         android:layout_width="242dp"
         android:layout_height="330dp"
@@ -127,9 +127,13 @@
         android:autoSizeTextType="none"
         android:inputType="textMultiLine"
         android:maxLines="30"
+        android:scrollbarStyle="outsideInset"
+        android:scrollbars="vertical"
         android:text="Sinopse"
         android:textAlignment="viewStart"
         android:textSize="14dp"
+        android:focusable="false"
+        android:verticalScrollbarPosition="right"
         app:layout_constraintEnd_toEndOf="@+id/txt_exibe_elenco"
         app:layout_constraintStart_toStartOf="@+id/txt_exibe_elenco"
         app:layout_constraintTop_toBottomOf="@+id/txt_exibe_elenco" />

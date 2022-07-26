@@ -24,6 +24,7 @@
     <string name="avaliacao_editor">Avaliação do Editor</string>
     <string name="grava_sem_imagem">Confirma a gravação sem imagem?</string>
     <string name="editar_filme">Editar</string>
+
     <string-array name="array_generos">
         <item>Animação</item>
         <item>Aventura</item>
@@ -34,6 +35,15 @@
         <item>Suspense</item>
         <item>Terror</item>
     </string-array>
+    <string name="gen_animacao">Animação</string>
+    <string name="gen_aventura">Aventura</string>
+    <string name="gen_comedia">Comédia</string>
+    <string name="gen_drama">Drama</string>
+    <string name="gen_ficcao">Ficção-Científica</string>
+    <string name="gen_policial">Policial</string>
+    <string name="gen_suspense">Suspense</string>
+    <string name="gen_terror">Terror</string>
+
     <string-array name="array_avaliacao_editor">
         <item>Excepcional</item>
         <item>Ótimo</item>
@@ -41,4 +51,10 @@
         <item>Regular</item>
         <item>Fraco</item>
     </string-array>
+    <string name="aval_excepcional">Excepcional</string>
+    <string name="aval_otimo">Ótimo</string>
+    <string name="aval_bom">Bom</string>
+    <string name="aval_regular">Regular</string>
+    <string name="aval_fraco">Fraco</string>
+
 </resources>

@@ -25,6 +25,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FormExibeFilme extends AppCompatActivity {
@@ -85,6 +86,49 @@ public class FormExibeFilme extends AppCompatActivity {
             }
         });
 
+        /* Botão EDITAR */
+        btnEditar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Filmes filme = new Filmes();
+
+                firebaseDatabase = FirebaseDatabase.getInstance();
+                databaseReference = firebaseDatabase.getReference("Filmes")
+                                        .child(movieId);
+
+                databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot)
+                    {
+
+                        ArrayList<String> nomes_campos = new ArrayList<>();
+
+                        nomes_campos.add(snapshot.child("titulo_portugues").getValue(String.class));    // 0
+                        nomes_campos.add(snapshot.child("titulo_original").getValue(String.class));     // 1
+                        nomes_campos.add(snapshot.child("direcao").getValue(String.class));             // 2
+                        nomes_campos.add(snapshot.child("producao").getValue(String.class));            // 3
+                        nomes_campos.add(snapshot.child("avaliacao_editor").getValue(String.class));    // 4
+                        nomes_campos.add(snapshot.child("elenco").getValue(String.class));              // 5
+                        nomes_campos.add(snapshot.child("sinopse").getValue(String.class));             // 6
+                        nomes_campos.add(snapshot.child("temporadas").getValue(String.class));          // 7
+                        nomes_campos.add(snapshot.child("genero").getValue(String.class));              // 8
+                        nomes_campos.add(snapshot.child("filme_serie").getValue(String.class));         // 9
+                        nomes_campos.add(snapshot.child("urlImagem").getValue(String.class));           // 10
+                        nomes_campos.add(snapshot.child("userId").getValue(String.class));              // 11
+
+                        CarregaTelaCadastroFilme(nomes_campos);
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+            }
+        });
+
         /* Botão VOLTAR */
         btnVoltar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,6 +140,13 @@ public class FormExibeFilme extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void CarregaTelaCadastroFilme(ArrayList<String> campos) {
+        Intent intent = new Intent(FormExibeFilme.this, FormCadastroFilmes.class);
+        intent.putStringArrayListExtra("atualiza_filme", campos);
+        startActivity(intent);
+        finish();
     }
 
     /* Atualiza ASSISTIDOS */
@@ -117,8 +168,10 @@ public class FormExibeFilme extends AppCompatActivity {
         assistido.setAvaliacao(avaliacao);
         assistido.setTituloPortugues(txt_titulo_portugues.getText().toString());
 
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference("Assistidos");
+
         databaseReference
-                .child("Assistidos")
                 .child(usuarioID)
                 .child(movieId)
                 .setValue(assistido);

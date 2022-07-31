@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
@@ -205,9 +206,12 @@ public class FormCadastroFilmes extends AppCompatActivity {
                 movie.setUrlImagem(urlImagem);
             }
 
-            databaseReference.child("Filmes").child(movie.getUserId()).setValue(movie);
+            // databaseReference.child("Filmes").child(movie.getUserId()).setValue(movie);
+            databaseReference
+                    .child("Filmes")
+                    .child(edt_titulo_portugues.getText().toString()).setValue(movie);
 
-            mensagem.msg_toast(getApplicationContext(), "Filme/Série cadastrado com sucesso");
+            mensagem.msg_toast(getApplicationContext(), getResources().getString(R.string.msg_filme_cad_sucesso));
 
             /* Barra de PROGRESSO */
             progressBar.setVisibility(View.VISIBLE);new Handler().postDelayed(new Runnable() {
@@ -226,7 +230,6 @@ public class FormCadastroFilmes extends AppCompatActivity {
         FirebaseApp.initializeApp(FormCadastroFilmes.this);
 
         firebase = FirebaseDatabase.getInstance();
-
         databaseReference = firebase.getReference();
 
     }
@@ -301,22 +304,22 @@ public class FormCadastroFilmes extends AppCompatActivity {
                     .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override
                         public void onSuccess(DocumentReference documentReference) {
-                            Log.i("Sucesso na gravação", documentReference.getId());
+                            Log.i(getResources().getString(R.string.msg_sucesso_gravacao), documentReference.getId());
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Log.i("Erro na gravação", e.getMessage());
+                            Log.i(getResources().getString(R.string.msg_erro_gravacao), e.getMessage());
                         }
                     });
             /* Campos validados, gravar os dados no firebase. */
 
-            mensagem.msg_toast(getApplicationContext(), "Filme/Série cadastrado com sucesso");
+            mensagem.msg_toast(getApplicationContext(), getResources().getString(R.string.msg_filme_cad_sucesso));
 
         } else {
 
-            mensagem.msg_toast(getApplicationContext(), "Dados inconsistentes");
+            mensagem.msg_toast(getApplicationContext(), getResources().getString(R.string.msg_dados_inconsistemtes));
 
         }
     }
@@ -402,7 +405,7 @@ public class FormCadastroFilmes extends AppCompatActivity {
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Log.i("Erro Imagem", e.getMessage(), e);
+                                Log.i(getResources().getString(R.string.msg_falha_imagem), e.getMessage(), e);
                             }
                         });
 
@@ -445,7 +448,7 @@ public class FormCadastroFilmes extends AppCompatActivity {
         /* Verifica se o título em português foi preenchido */
         if (validaCampos && titulo_portugues.isEmpty()) {
             /* Título em português em branco */
-            strErro = "Preencher TÍTULO EM PORTUGUÊS";
+            strErro = getResources().getString(R.string.msg_preencher_tit_port);
             result = false;
         } else {
             result = true;

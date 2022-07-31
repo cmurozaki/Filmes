@@ -5,6 +5,7 @@ public class Assistidos {
     private String assistido;
     private String avaliacao;
     private String tituloPortugues;
+    private String idFilme;
 
     public Assistidos() {
 
@@ -33,5 +34,14 @@ public class Assistidos {
     public void setAvaliacao(String avaliacao) {
         this.avaliacao = avaliacao;
     }
+
+    public String getIdFilme() {
+        return idFilme;
+    }
+
+    public void setIdFilme(String idFilme) {
+        this.idFilme = idFilme;
+    }
+
 }
 

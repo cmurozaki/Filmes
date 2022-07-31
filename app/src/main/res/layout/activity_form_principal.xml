@@ -47,6 +47,7 @@
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_principal_novidades"
         style="@style/Button_Tela_Principal"
+        android:visibility="invisible"
         android:text="@string/novidades"
         android:textSize="12dp"
         android:textStyle="bold"
@@ -63,6 +64,7 @@
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_principal_favoritos"
         style="@style/Button_Tela_Principal"
+        android:visibility="invisible"
         android:text="@string/favoritos"
         android:textSize="12dp"
         android:textColor="@color/black"
@@ -80,6 +82,7 @@
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_principal_diretor"
         style="@style/Button_Tela_Principal"
+        android:visibility="invisible"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:text="@string/diretor"
@@ -94,6 +97,7 @@
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_principal_ator_atriz"
         style="@style/Button_Tela_Principal"
+        android:visibility="invisible"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginStart="15dp"
@@ -107,7 +111,7 @@
         />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_principal_minhalista"
+        android:id="@+id/btn_principal_assistidos"
         style="@style/Button_Tela_Principal"
         android:layout_width="100dp"
         android:layout_height="100dp"
@@ -124,6 +128,7 @@
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_principal_config"
         style="@style/Button_Tela_Principal"
+        android:visibility="invisible"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginStart="15dp"

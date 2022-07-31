@@ -167,6 +167,7 @@ public class FormExibeFilme extends AppCompatActivity {
         }
         assistido.setAvaliacao(avaliacao);
         assistido.setTituloPortugues(txt_titulo_portugues.getText().toString());
+        assistido.setIdFilme((movieId));
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("Assistidos");

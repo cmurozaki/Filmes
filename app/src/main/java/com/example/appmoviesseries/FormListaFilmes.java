@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +22,7 @@ import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -57,20 +59,23 @@ public class FormListaFilmes extends AppCompatActivity {
 
     Button btnVoltar;
 
+    String userId;
+
+    String tipoLista;
+
+    String usuarioID;
+
     /* Exibição de mensagens */
     Filmes mensagem = new Filmes();
-
-    private String[] avaliacao = {
-            "Excepcional",
-            "Ótimo",
-            "Bom",
-            "Regular",
-            "Fraco" };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form_lista_filmes);
+
+        //Bundle bundle = getIntent().getExtras();
+
+        //tipoLista = bundle.getString("tipo");
 
         /* RecyclerView - Exibe a lista de filmes */
         RecyclerView rv = findViewById(R.id.recycler);
@@ -120,8 +125,8 @@ public class FormListaFilmes extends AppCompatActivity {
         });
 
         /* Lista os filmes */
-        ordenarPor = "titulo_portugues";
-        eventoDatabase(ordenarPor);
+        ordenarPor = getResources().getString(R.string.filme_tit_portugues);
+        eventoDatabase(ordenarPor, tipoLista);
 
         /* Botão VOLTAR */
         btnVoltar.setOnClickListener(new View.OnClickListener() {
@@ -152,14 +157,8 @@ public class FormListaFilmes extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                pesquisaFilmes(newText.toUpperCase().trim());
-                /*
-                if (newText.length()==1) {
-                    pesquisaFilmes(newText.toUpperCase());
-                } else {
-                    mensagem.msg_toast(getApplicationContext(), "Busca pela PRIMEIRA letra");
-                }
-                */
+                // pesquisaFilmes(newText.toUpperCase().trim());
+                pesquisarTeste();
                 return true;
             }
         });
@@ -167,6 +166,24 @@ public class FormListaFilmes extends AppCompatActivity {
 
         return super.onCreateOptionsMenu(menu);
 
+    }
+
+
+    private void pesquisarTeste() {
+        Filmes filmes = new Filmes();
+        FirebaseDatabase db = FirebaseDatabase.getInstance();
+        DatabaseReference ref = db.getReference("Filmes");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Filmes filmes1 = snapshot.getValue(Filmes.class);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
 
@@ -193,14 +210,14 @@ public class FormListaFilmes extends AppCompatActivity {
     ValueEventListener valueEventListener = new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot snapshot) {
-            moviesList.clear();
+            //moviesList.clear();
             for (DataSnapshot dataSnapshot:snapshot.getChildren()) {
                 // Movies movie = dataSnapshot.getValue(Movies.class);      // Não funciona
                 Filmes movie = dataSnapshot.getValue(Filmes.class);
                 // moviesList.add(movie);
                 adapter.add(new MovieItem(movie));
             }
-            moviesArrayAdapter = new ArrayAdapter<Movies>(FormListaFilmes.this, android.R.layout.simple_list_item_1, moviesList);
+            // moviesArrayAdapter = new ArrayAdapter<Movies>(FormListaFilmes.this, android.R.layout.simple_list_item_1, moviesList);
         }
 
         @Override
@@ -209,29 +226,32 @@ public class FormListaFilmes extends AppCompatActivity {
         }
     };
 
-    private void eventoDatabase(String ordenarPor) {
+    ValueEventListener valueEventListenerAssistidos = new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot snapshot) {
+            moviesList.clear();
+            for (DataSnapshot dataSnapshot:snapshot.getChildren()) {
+
+            }
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError error) {
+
+        }
+    };
+
+    private void eventoDatabase(String ordenarPor, String tipoLista) {
         /* Lista todos os filmes */
         //databaseReference.orderByChild(ordenarPor)
         //        .addListenerForSingleValueEvent(valueEventListener);
 
-        Query query = databaseReference.orderByChild(ordenarPor);
+            Query query = databaseReference
+                    .orderByChild(ordenarPor);
 
-        /* Lista registros iguais */
-        /*
-        Query query = databaseReference.orderByChild(ordenarPor)
-                .equalTo("OZARK");
-        */
+            query.addListenerForSingleValueEvent(valueEventListener);
 
-        /* Lista registros que começam com 2, por exemmplo */
-        /*
-        Query query = databaseReference.orderByChild(ordenarPor)
-                .startAt("2")
-                .endAt("2\uf8ff");
-        */
-
-        query.addListenerForSingleValueEvent(valueEventListener);
-
-    }
+    }   // private void eventoDatabase()
 
 
     private void pesquisaFilmes(String newText) {

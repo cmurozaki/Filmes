@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -30,6 +31,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.xwray.groupie.GroupAdapter;
+import com.xwray.groupie.Item;
+import com.xwray.groupie.ViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +45,7 @@ public class FormPrincipal extends AppCompatActivity {
     private Button btn_logoff;
     private Button btn_tela_principal_catalogo;
     private Button btn_cadastrar_filmes;
+    private Button btn_assistidos;
     private TextView txt_nome_usuario;
 
     FirebaseDatabase firebase;
@@ -50,10 +55,18 @@ public class FormPrincipal extends AppCompatActivity {
 
     Boolean isADM = false;
 
+    /* Exibição de mensagens */
+    Filmes mensagem = new Filmes();
+
+    String usuarioID;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form_principal);
+
+        /* ID do usuário logado */
+        usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         /* Esconde a barra de ação */
         getSupportActionBar().hide();
@@ -94,11 +107,65 @@ public class FormPrincipal extends AppCompatActivity {
             }
         });
 
+        /* Botão ASSISTIDOS */
+        btn_assistidos.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onClick(View v) {
+                btn_assistidos.setTextColor(getColor(R.color.white));
+                exibirAssistidos();
+            }
+        });
+
     }
+
+    private void exibirAssistidos() {
+
+        Intent intent = new Intent(FormPrincipal.this, FormListaFilmesAssistidos.class);
+        startActivity(intent);
+        finish();
+
+        //firebase = FirebaseDatabase.getInstance();
+        //databaseReference = firebase.getReference("Assistidos");
+
+        //Query query = databaseReference
+        //        .child(usuarioID);
+
+        //query.addListenerForSingleValueEvent(new ValueEventListener() {
+        //    @Override
+        //    public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+        //        List<Assistidos> lst_assistidos = new ArrayList<Assistidos>();
+
+        //        for (DataSnapshot data: snapshot.getChildren()) {
+        //            Assistidos assistido = data.getValue(Assistidos.class);
+        //           if (assistido.getAssistido().equals("S")) {
+        //                lst_assistidos.add(assistido);
+        //            }
+        //        }
+
+                /*
+                mensagem.msg_toast(getApplicationContext(), lst_assistidos.size()+"");
+
+                for (int i = 0; i < lst_assistidos.size(); i++) {
+                    mensagem.msg_toast(getApplicationContext(), usuarioID+"/"+lst_assistidos.get(i).getTituloPortugues()+"");
+                }
+                */
+
+            }
+
+        //    @Override
+        //    public void onCancelled(@NonNull DatabaseError error) {
+
+        //    }
+        //});
+
+    //}
 
     /* Carrega a tela com a lista dos filmes */
     private void listarFilmes() {
         Intent intent = new Intent(FormPrincipal.this, FormListaFilmes.class);
+        intent.putExtra("tipo", "todos");
         startActivity(intent);
         finish();
     }
@@ -121,6 +188,7 @@ public class FormPrincipal extends AppCompatActivity {
         btn_logoff = findViewById(R.id.btn_logoff);
         btn_tela_principal_catalogo = findViewById(R.id.btn_principal_catalogo);
         btn_cadastrar_filmes = findViewById(R.id.btn_cadastrar_filmes);
+        btn_assistidos = findViewById(R.id.btn_principal_assistidos);
         txt_nome_usuario = findViewById(R.id.txtUsuario);
     }
 

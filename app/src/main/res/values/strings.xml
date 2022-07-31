@@ -25,6 +25,13 @@
     <string name="grava_sem_imagem">Confirma a gravação sem imagem?</string>
     <string name="editar_filme">Editar</string>
 
+    <string name="msg_filme_cad_sucesso">Filme/Série cadastrado com sucesso</string>
+    <string name="msg_dados_inconsistemtes">Dados inconsistentes</string>
+    <string name="msg_sucesso_gravacao">Sucesso na gravação</string>
+    <string name="msg_erro_gravacao">Erro na gravação</string>
+    <string name="msg_falha_imagem">Falha na carga da imagem</string>
+    <string name="msg_preencher_tit_port">Preencher TÍTULO EM PORTUGUÊS</string>
+
     <string-array name="array_generos">
         <item>Animação</item>
         <item>Aventura</item>
@@ -56,5 +63,12 @@
     <string name="aval_bom">Bom</string>
     <string name="aval_regular">Regular</string>
     <string name="aval_fraco">Fraco</string>
+
+    <string name="filme_tit_portugues">titulo_portugues</string>
+    <string name="filme_tit_original">titulo_original</string>
+    <string name="filme_direcao">direcao</string>
+
+    <string name="ass_tit_portugues">tituloPortugues</string>
+    <string name="ass_assistido">assistido</string>
 
 </resources>
